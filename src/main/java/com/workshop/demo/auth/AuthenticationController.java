@@ -1,5 +1,6 @@
-package com.workshop.demo.controllers;
+package com.workshop.demo.auth;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -10,8 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.workshop.demo.config.JwtUtils;
-import com.workshop.demo.dao.UserDao;
-import com.workshop.demo.dto.AuthenticationRequest;
+import com.workshop.demo.user.UserDao;
 
 import lombok.RequiredArgsConstructor;
 
@@ -20,9 +20,17 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class AuthenticationController {
 
+    @Autowired
     private final AuthenticationManager authenticationManager;
     private final UserDao userDao;
     private final JwtUtils jwtUtils;
+
+    // public AuthenticationController(AuthenticationManager authenticationManager,
+    // UserDao userDao, JwtUtils jwtUtils) {
+    // this.authenticationManager = authenticationManager;
+    // this.jwtUtils = jwtUtils;
+    // this.userDao = userDao;
+    // }
 
     @PostMapping("/authenticate")
     public ResponseEntity<String> authenticate(
