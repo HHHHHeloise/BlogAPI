@@ -37,7 +37,6 @@ public class SecurityConfig {
     private final UserDao userDao;
 
     @Bean
-
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
         http
