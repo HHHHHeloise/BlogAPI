@@ -14,7 +14,7 @@ public class GreetingsController {
         return ResponseEntity.ok("Hello from our API");
     }
 
-    @GetMapping("/say-good-bye")
+    @RequestMapping("/say-good-bye")
     public ResponseEntity<String> sayGoodBye() {
         return ResponseEntity.ok("Good by and see you later");
     }
