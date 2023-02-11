@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
-import java.util.Objects;
-import java.util.stream.Collectors;
 
 import org.hibernate.annotations.NaturalId;
 import org.springframework.security.core.GrantedAuthority;
@@ -62,6 +60,7 @@ public class User extends DateAudit {
     @Email
     private String email;
 
+    private String role;
     @JsonIgnore
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Review> reviews;
@@ -80,26 +79,19 @@ public class User extends DateAudit {
 
     private Collection<? extends GrantedAuthority> authorities;
 
-    public User(Long id, String username, String password, String email,
+    public User(Long id, String username, String password, String email, String role,
             Collection<? extends GrantedAuthority> authorities) {
         this.id = id;
         this.username = username;
         this.password = password;
         this.email = email;
+        this.role = role;
 
         if (authorities == null) {
             this.authorities = null;
         } else {
             this.authorities = new ArrayList<>(authorities);
         }
-    }
-
-    public static User create(User user) {
-        List<GrantedAuthority> authorities = user.stream()
-                .map(role -> new SimpleGrantedAuthority(role.getName().name())).collect(Collectors.toList());
-
-        return new User(user.getId(), user.getUsername(),
-                user.getPassword(), user.getEmail(), authorities);
     }
 
     public Long getId() {
@@ -118,7 +110,62 @@ public class User extends DateAudit {
         return password;
     }
 
+    /**
+     * @return String return the role
+     */
+    public String getRole() {
+        if (email.endsWith("gmial")) {
+            role = "ADMIN";
+        } else {
+            role = "USER";
+        }
+        return role;
+    }
+
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return authorities == null ? null : new ArrayList<>(authorities);
     }
+
+    /**
+     * @param id the id to set
+     */
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    /**
+     * @param username the username to set
+     */
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    /**
+     * @param password the password to set
+     */
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    /**
+     * @param email the email to set
+     */
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    /**
+     * @param authorities the authorities to set
+     */
+    public void setAuthorities(Collection<? extends GrantedAuthority> authorities) {
+        this.authorities = authorities;
+    }
+
+    /**
+     * @param role the role to set
+     */
+    public void setRole(String role) {
+        this.role = role;
+    }
+
 }

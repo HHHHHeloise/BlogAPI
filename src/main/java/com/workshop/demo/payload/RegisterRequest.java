@@ -7,7 +7,7 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 
 @Data
-public class SignUpRequest {
+public class RegisterRequest {
     @NotBlank
     @Size(min = 3, max = 15)
     private String username;

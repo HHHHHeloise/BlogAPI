@@ -14,7 +14,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
-import jakarta.validation.constraints.Email;
+
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -35,12 +35,6 @@ public class Review extends UserDateAudit {
     @Column(name = "rating")
     @NotBlank
     private String rating;
-
-    @Column(name = "email")
-    @NotBlank
-    @Email
-    @Size(min = 4, max = 50)
-    private String email;
 
     @Column(name = "body")
     @NotBlank
@@ -68,4 +62,61 @@ public class Review extends UserDateAudit {
     public User getUser() {
         return user;
     }
+
+    /**
+     * @return Long return the id
+     */
+    public Long getId() {
+        return id;
+    }
+
+    /**
+     * @param id the id to set
+     */
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    /**
+     * @return String return the rating
+     */
+    public String getRating() {
+        return rating;
+    }
+
+    /**
+     * @param rating the rating to set
+     */
+    public void setRating(String rating) {
+        this.rating = rating;
+    }
+
+    /**
+     * @return String return the body
+     */
+    public String getBody() {
+        return body;
+    }
+
+    /**
+     * @param body the body to set
+     */
+    public void setBody(String body) {
+        this.body = body;
+    }
+
+    /**
+     * @param restaurant the restaurant to set
+     */
+    public void setRestaurant(Restaurant restaurant) {
+        this.restaurant = restaurant;
+    }
+
+    /**
+     * @param user the user to set
+     */
+    public void setUser(User user) {
+        this.user = user;
+    }
+
 }

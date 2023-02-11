@@ -1,12 +1,11 @@
 package com.workshop.demo.repository;
 
-import java.nio.file.attribute.UserPrincipal;
 import java.util.Optional;
-
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-
+import com.workshop.demo.exception.ResourceNotFoundException;
 import com.workshop.demo.model.User;
+import com.workshop.demo.security.UserPrincipal;
 
 import jakarta.validation.constraints.NotBlank;
 
@@ -22,7 +21,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     Optional<User> findByUsernameOrEmail(String username, String email);
 
-    default User getUser(User currentUser) {
+    default User getUser(UserPrincipal currentUser) {
         return getUserByName(currentUser.getUsername());
     }
 
