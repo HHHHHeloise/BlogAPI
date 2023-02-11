@@ -30,10 +30,11 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 @Entity
 @Data
-@Table(name = "Restaurants", uniqueConstraints = { @UniqueConstraint(columnNames = { "name" }) })
+@Table(name = "Restaurants", uniqueConstraints = { @UniqueConstraint(columnNames = { "name" }),
+        @UniqueConstraint(columnNames = { "email" }) })
 @JsonIgnoreProperties(value = { "updatedBy" })
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
-public class Restautant extends UserDateAudit {
+public class Restaurant extends UserDateAudit {
     private static final long serialVersionUID = 1L;
 
     @Id
@@ -58,7 +59,7 @@ public class Restautant extends UserDateAudit {
     private String location;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "restaurants", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Review> reviews;
 
     public List<Review> getReviews() {

@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.workshop.demo.auth.AuthenticationRequest;
 import com.workshop.demo.config.JwtUtils;
+import com.workshop.demo.payload.AuthenticationRequest;
 import com.workshop.demo.user.UserDao;
 
 import lombok.RequiredArgsConstructor;

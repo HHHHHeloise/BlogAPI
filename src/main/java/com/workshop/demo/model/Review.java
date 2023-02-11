@@ -48,8 +48,8 @@ public class Review extends UserDateAudit {
     private String body;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "restautant_id")
-    private Restautant restautant;
+    @JoinColumn(name = "restaurant_id")
+    private Restaurant restaurant;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
@@ -60,8 +60,8 @@ public class Review extends UserDateAudit {
     }
 
     @JsonIgnore
-    public Restautant getRestautant() {
-        return restautant;
+    public Restaurant getRestaurant() {
+        return restaurant;
     }
 
     @JsonIgnore

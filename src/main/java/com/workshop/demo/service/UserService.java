@@ -1,5 +1,5 @@
 package com.workshop.demo.service;
 
-public interface RestaurantService {
+public interface UserService {
 
 }

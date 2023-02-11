@@ -1,4 +1,4 @@
-package com.workshop.demo.auth;
+package com.workshop.demo.payload;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
