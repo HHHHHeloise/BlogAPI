@@ -2,14 +2,12 @@ package com.workshop.demo.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import com.workshop.demo.exception.ResourceNotFoundException;
 import com.workshop.demo.exception.BlogapiException;
 import com.workshop.demo.model.Restaurant;
 import com.workshop.demo.model.Review;
 import com.workshop.demo.model.User;
 import com.workshop.demo.payload.ApiResponse;
-import com.workshop.demo.payload.RestaurantResponse;
 import com.workshop.demo.payload.ReviewRequest;
 import com.workshop.demo.repository.RestaurantRepository;
 import com.workshop.demo.repository.ReviewRepository;
@@ -76,7 +74,6 @@ public class ReviewServiceImpl implements ReviewService {
     @Override
     public Review updateReview(Long userId, Long id, ReviewRequest reviewRequest,
             UserPrincipal currentUser) {
-        User user = userRepository.getUser(currentUser);
         Review review = reviewRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException(REVIEW_STR, ID_STR, id));
 
@@ -84,8 +81,7 @@ public class ReviewServiceImpl implements ReviewService {
             throw new BlogapiException(HttpStatus.BAD_REQUEST, REVIEW_DOES_NOT_BELONG_TO_POSTER);
         }
 
-        if (review.getUser().getId() == currentUser.getId()
-                || currentUser.getAuthorities().contains(new SimpleGrantedAuthority(RoleName.ROLE_ADMIN.toString()))) {
+        if (review.getUser().getId() == currentUser.getId()) {
             review.setBody(reviewRequest.getBody());
             return reviewRepository.save(review);
         }
@@ -96,7 +92,6 @@ public class ReviewServiceImpl implements ReviewService {
     // delete the user's specific review with userId and the id of the review
     @Override
     public ApiResponse deleteReview(Long userId, Long id, UserPrincipal currentUser) {
-        User user = userRepository.getUser(currentUser);
         Review review = reviewRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException(REVIEW_STR, ID_STR, id));
 

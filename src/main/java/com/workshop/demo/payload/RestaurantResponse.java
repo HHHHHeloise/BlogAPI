@@ -14,6 +14,8 @@ public class RestaurantResponse<T> {
 
     private int score;
 
+    private String phone;
+
     private boolean last;
 
     public RestaurantResponse() {

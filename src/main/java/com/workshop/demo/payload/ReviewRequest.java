@@ -8,7 +8,7 @@ import lombok.Data;
 public class ReviewRequest {
 
     @NotBlank
-    private String score;
+    private int score;
 
     @NotBlank
     @Size(min = 10, message = "Review body must be minimum 10 characters")

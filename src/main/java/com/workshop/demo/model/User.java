@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 import org.hibernate.annotations.NaturalId;
 import org.springframework.security.core.GrantedAuthority;
@@ -113,7 +114,7 @@ public class User extends DateAudit {
     /**
      * @return String return the role
      */
-    public String getRole() {
+    public String getRole(Optional<User> user) {
         if (email.endsWith("gmial")) {
             role = "ADMIN";
         } else {
