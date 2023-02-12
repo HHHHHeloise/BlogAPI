@@ -2,6 +2,8 @@ package com.workshop.demo.model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.LongSummaryStatistics;
+import java.util.stream.Collectors;
 
 import org.hibernate.annotations.NaturalId;
 
@@ -44,6 +46,10 @@ public class Restaurant extends UserDateAudit {
     @Column(name = "name")
     private String name;
 
+    @NotBlank
+    @Column(name = "score")
+    private int score;
+
     @Column(name = "phone")
     private String phone;
 
@@ -61,6 +67,8 @@ public class Restaurant extends UserDateAudit {
     @JsonIgnore
     @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Review> reviews;
+    Integer sum = reviews.stream().mapToInt(Review::getScore).sum();
+    LongSummaryStatistics lss = reviews.stream().collect(Collectors.summarizingLong(Review::getScore));
 
     public List<Review> getReviews() {
         return reviews == null ? null : new ArrayList<>(reviews);
@@ -142,6 +150,20 @@ public class Restaurant extends UserDateAudit {
      */
     public void setLocation(String location) {
         this.location = location;
+    }
+
+    /**
+     * @return int return the score
+     */
+    public int getScore() {
+        return (int) lss.getAverage();
+    }
+
+    /**
+     * @param score the score to set
+     */
+    public void setScore(int score) {
+        this.score = score;
     }
 
 }

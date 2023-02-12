@@ -1,8 +1,12 @@
 package com.workshop.demo.payload;
 
+import java.time.Instant;
+
 import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.NaturalId;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
@@ -14,14 +18,20 @@ public class RestaurantRequest {
     @Size(min = 10)
     private String name;
 
-    // private String phone;
-
     @NotBlank
     @NaturalId
     @Size(max = 40)
     private String email;
 
+    private String phone;
     private Long id;
+    private String location;
+
+    @CreatedDate
+    private Instant createdAt;
+
+    @LastModifiedDate
+    private Instant updatedAt;
 
     public String getRestaurantName() {
         return name;

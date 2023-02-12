@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 import com.workshop.demo.exception.ResourceNotFoundException;
 import com.workshop.demo.exception.BlogapiException;
 import com.workshop.demo.model.Restaurant;
-
+import com.workshop.demo.model.Review;
 import com.workshop.demo.model.User;
 import com.workshop.demo.payload.ApiResponse;
 import com.workshop.demo.payload.RestaurantRequest;
@@ -42,13 +42,13 @@ public class RestaurantServiceImpl implements RestaurantService {
         return null;
     }
 
+    // return the score of one specific restaurant with restaurantRequest
     @Override
-    public Restaurant getScore(RestaurantRequest restaurantRequest) {
+    public Integer getScore(RestaurantRequest restaurantRequest) {
         Restaurant restaurant = restaurantRepository.findByName(restaurantRequest.getRestaurantName())
                 .orElseThrow(() -> new ResourceNotFoundException(THIS_RESTAURANT, ID_STR,
                         restaurantRequest.getRestaurantName()));
-
-        return null;
+        return restaurant.getScore();
     }
 
     @Override
@@ -56,6 +56,13 @@ public class RestaurantServiceImpl implements RestaurantService {
         Restaurant restaurant = restaurantRepository.findByName(restaurantRequest.getRestaurantName())
                 .orElseThrow(() -> new ResourceNotFoundException(THIS_RESTAURANT, ID_STR,
                         restaurantRequest.getRestaurantName()));
+        restaurant.setCreatedAt(null);
+        restaurant.setCreatedBy(null);
+        restaurant.setEmail(ID_STR);
+        restaurant.setId(null);
+        restaurant.setLocation(ID_STR);
+        restaurant.setName(ID_STR);
+        restaurant.setPhone(ID_STR);
         return null;
     }
 

@@ -66,7 +66,6 @@ public class ReviewServiceImpl implements ReviewService {
         if (review.getUser().getId() == userId) {
             return review;
         }
-
         throw new BlogapiException(HttpStatus.BAD_REQUEST, REVIEW_DOES_NOT_BELONG_TO_POSTER);
     }
 
