@@ -5,8 +5,8 @@ import java.time.Instant;
 import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.NaturalId;
+import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
@@ -30,8 +30,8 @@ public class RestaurantRequest {
     @CreatedDate
     private Instant createdAt;
 
-    @LastModifiedDate
-    private Instant updatedAt;
+    @CreatedBy
+    private Long createdBy;
 
     public String getRestaurantName() {
         return name;
