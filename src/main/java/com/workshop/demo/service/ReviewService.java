@@ -8,12 +8,12 @@ import com.workshop.demo.security.UserPrincipal;
 
 public interface ReviewService {
     // get all the reviews of the restaurant
-    Review getAllReviews(String name);
+    Review getRestaurantReview(String name);
 
     Review addReview(ReviewRequest reviewRequest, Long postId, UserPrincipal currentUser);
 
-    // get the user's reviews
-    Review getReview(Long userId);
+    // get the user's specific review with userId and the id of the review
+    Review getReview(Long userId, Long id);
 
     // update the user's specific review with userId and the id of the review
     Review updateReview(Long userId, Long id, ReviewRequest reviewRequest,

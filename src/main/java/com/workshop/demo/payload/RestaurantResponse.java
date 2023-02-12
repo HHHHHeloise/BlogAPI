@@ -12,6 +12,8 @@ public class RestaurantResponse<T> {
 
     private List<T> review;
 
+    private int score;
+
     private boolean last;
 
     public RestaurantResponse() {
@@ -23,7 +25,7 @@ public class RestaurantResponse<T> {
         this.last = last;
     }
 
-    public List<T> getAllReviews() {
+    public List<T> getRestaurantReview() {
         return review == null ? null : new ArrayList<>(review);
     }
 

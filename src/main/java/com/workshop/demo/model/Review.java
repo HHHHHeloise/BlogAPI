@@ -32,9 +32,9 @@ public class Review extends UserDateAudit {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "rating")
+    @Column(name = "score")
     @NotBlank
-    private String rating;
+    private int score;
 
     @Column(name = "body")
     @NotBlank
@@ -78,17 +78,17 @@ public class Review extends UserDateAudit {
     }
 
     /**
-     * @return String return the rating
+     * @return String return the score
      */
-    public String getRating() {
-        return rating;
+    public int getScore() {
+        return score;
     }
 
     /**
-     * @param rating the rating to set
+     * @param i the score to set
      */
-    public void setRating(String rating) {
-        this.rating = rating;
+    public void setScore(int score) {
+        this.score = score;
     }
 
     /**

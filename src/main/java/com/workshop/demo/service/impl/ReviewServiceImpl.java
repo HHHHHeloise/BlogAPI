@@ -42,17 +42,9 @@ public class ReviewServiceImpl implements ReviewService {
 
     // get all the reviews of the restaurant
     @Override
-    public Review getAllReviews(String restaurantName) {
-        // Restaurant restaurant = restaurantRepository.findByName(restaurantName)
-        // .orElseThrow(() -> new ResourceNotFoundException(THIS_RESTAURANT, ID_STR,
-        // restaurantName));
-        Review review = reviewRepository.findByRestaurantName(restaurantName)
+    public Review getRestaurantReview(String restaurantName) {
+        return reviewRepository.findByRestaurantName(restaurantName)
                 .orElseThrow(() -> new ResourceNotFoundException(REVIEW_STR, ID_STR, restaurantName));
-        if (review.getRestaurant().getName() == restaurantName) {
-            return review;
-        }
-
-        throw new BlogapiException(HttpStatus.BAD_REQUEST, "this restaurant does not have a comment");
     }
 
     @Override
@@ -63,7 +55,7 @@ public class ReviewServiceImpl implements ReviewService {
         User user = userRepository.getUser(currentUser);
         Review review = new Review(reviewRequest.getBody());
         review.setUser(user);
-        review.setRating(reviewRequest.getRating());
+        review.setScore(reviewRequest.getScore());
         review.setRestaurant(restaurant);
         return reviewRepository.save(review);
     }
@@ -112,8 +104,7 @@ public class ReviewServiceImpl implements ReviewService {
             return new ApiResponse(Boolean.FALSE, REVIEW_DOES_NOT_BELONG_TO_POSTER);
         }
 
-        if (review.getUser().getId().equals(currentUser.getId())
-                || currentUser.getAuthorities().contains(new SimpleGrantedAuthority(RoleName.ROLE_ADMIN.toString()))) {
+        if (review.getUser().getId().equals(currentUser.getId())) {
             reviewRepository.deleteById(review.getId());
             return new ApiResponse(Boolean.TRUE, "You successfully deleted review");
         }
