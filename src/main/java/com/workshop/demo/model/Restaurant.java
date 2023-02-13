@@ -64,13 +64,6 @@ public class Restaurant extends UserDateAudit {
     @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Review> reviews;
 
-    @JsonIgnore
-    @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL, orphanRemoval = true)
-    private int score;
-
-    Integer sum = reviews.stream().mapToInt(Review::getScore).sum();
-    LongSummaryStatistics lss = reviews.stream().collect(Collectors.summarizingLong(Review::getScore));
-
     public List<Review> getReviews() {
         return reviews == null ? null : new ArrayList<>(reviews);
     }
@@ -156,15 +149,15 @@ public class Restaurant extends UserDateAudit {
     /**
      * @return int return the score
      */
-    public int getScore() {
-        return (int) lss.getAverage();
-    }
+    // public int getScore() {
+    // return (int) lss.getAverage();
+    // }
 
-    /**
-     * @param score the score to set
-     */
-    public void setScore(int score) {
-        this.score = score;
-    }
+    // /**
+    // * @param score the score to set
+    // */
+    // public void setScore(int score) {
+    // this.score = score;
+    // }
 
 }

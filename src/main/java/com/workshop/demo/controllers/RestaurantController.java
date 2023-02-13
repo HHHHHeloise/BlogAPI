@@ -8,9 +8,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-
 import java.util.List;
 
 import javax.validation.Valid;
@@ -30,36 +27,36 @@ public class RestaurantController {
     private RestaurantService restaurantService;
 
     @GetMapping("/{restaurantName}")
-    public ResponseEntity<List<Restaurant>> getAllRestaurantNames(
+    public List<Restaurant> getAllRestaurantNames(
             @Valid @RequestBody RestaurantRequest restaurantRequest) {
         List<Restaurant> restaurant = restaurantService.getAllRestaurantNames(restaurantRequest);
 
-        return new ResponseEntity<>(restaurant, HttpStatus.OK);
+        return restaurant;
     }
 
     @GetMapping("/{score}")
-    public ResponseEntity<Integer> getScore(
+    public Integer getScore(
             @Valid @RequestBody RestaurantRequest restaurantRequest) {
         Integer score = restaurantService.getScore(restaurantRequest);
 
-        return new ResponseEntity<>(score, HttpStatus.OK);
+        return score;
     }
 
     @PostMapping
     @PreAuthorize("hasRole('USER')")
-    public ResponseEntity<Restaurant> addRestaurant(@Valid @RequestBody RestaurantRequest restaurantRequest,
+    public Restaurant addRestaurant(@Valid @RequestBody RestaurantRequest restaurantRequest,
             @CurrentUser User user) {
         Restaurant restaurant = restaurantService.addRestaurant(restaurantRequest, user);
 
-        return new ResponseEntity<Restaurant>(restaurant, HttpStatus.CREATED);
+        return restaurant;
     }
 
     @DeleteMapping("/{email}")
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
-    public ResponseEntity<ApiResponse> deleteRestaurant(@CurrentUser User user,
+    public ApiResponse deleteRestaurant(@CurrentUser User user,
             @RequestBody RestaurantRequest restaurantRequest) {
 
         ApiResponse apiResponse = restaurantService.deleteRestaurant(user, restaurantRequest);
-        return new ResponseEntity<>(apiResponse, HttpStatus.OK);
+        return apiResponse;
     }
 }

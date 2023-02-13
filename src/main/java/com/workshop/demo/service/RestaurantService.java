@@ -19,5 +19,5 @@ public interface RestaurantService {
     Restaurant addRestaurant(RestaurantRequest restaurantRequest, User user);
 
     // delete the restaurant when the user is admin
-    ResponseEntity<ApiResponse> deleteRestaurant(User user, RestaurantRequest restaurantRequest);
+    ApiResponse deleteRestaurant(User user, RestaurantRequest restaurantRequest);
 }
