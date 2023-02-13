@@ -46,10 +46,6 @@ public class Restaurant extends UserDateAudit {
     @Column(name = "name")
     private String name;
 
-    @NotBlank
-    @Column(name = "score")
-    private int score;
-
     @Column(name = "phone")
     private String phone;
 
@@ -67,6 +63,11 @@ public class Restaurant extends UserDateAudit {
     @JsonIgnore
     @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Review> reviews;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL, orphanRemoval = true)
+    private int score;
+
     Integer sum = reviews.stream().mapToInt(Review::getScore).sum();
     LongSummaryStatistics lss = reviews.stream().collect(Collectors.summarizingLong(Review::getScore));
 

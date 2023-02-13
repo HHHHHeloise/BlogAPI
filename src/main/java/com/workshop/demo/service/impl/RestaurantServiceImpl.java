@@ -1,6 +1,9 @@
 package com.workshop.demo.service.impl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import com.workshop.demo.exception.ResourceNotFoundException;
@@ -9,7 +12,7 @@ import com.workshop.demo.model.Restaurant;
 import com.workshop.demo.model.User;
 import com.workshop.demo.payload.ApiResponse;
 import com.workshop.demo.payload.RestaurantRequest;
-import com.workshop.demo.payload.RestaurantResponse;
+
 import com.workshop.demo.repository.RestaurantRepository;
 import com.workshop.demo.service.RestaurantService;
 
@@ -24,18 +27,19 @@ public class RestaurantServiceImpl implements RestaurantService {
 
     // return all the restaurants' names in our blog
     @Override
-    public RestaurantResponse<Restaurant> getAllRestaurants() {
-
-        return null;
+    public List<Restaurant> getAllRestaurantNames(RestaurantRequest restaurantRequest) {
+        return restaurantRepository.findAllRestaurantNames(Sort.by("name"));
     }
 
     // return the score of one specific restaurant with restaurantRequest
     @Override
     public Integer getScore(RestaurantRequest restaurantRequest) {
-        Restaurant restaurant = restaurantRepository.findByName(restaurantRequest.getRestaurantName())
-                .orElseThrow(() -> new ResourceNotFoundException(THIS_RESTAURANT, ID_STR,
-                        restaurantRequest.getRestaurantName()));
-        return restaurant.getScore();
+        // Restaurant restaurant =
+        // restaurantRepository.findByName(restaurantRequest.getRestaurantName())
+        // .orElseThrow(() -> new ResourceNotFoundException(THIS_RESTAURANT, ID_STR,
+        // restaurantRequest.getRestaurantName()));
+        // return new RestaurantResponse(restaurant, restaurant.getScore());
+        return restaurantRepository.getScore(restaurantRequest.getName());
     }
 
     @Override

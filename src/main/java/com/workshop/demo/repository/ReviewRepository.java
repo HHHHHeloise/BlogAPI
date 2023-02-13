@@ -19,4 +19,6 @@ public interface ReviewRepository extends JpaRepository<Review, Long> {
     List<Review> deleteReview(Long userId);
 
     List<Review> createReview(Long userId);
+
+    Long countByCreatedBy(Long userId);
 }

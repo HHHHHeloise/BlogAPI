@@ -42,7 +42,7 @@ public class Review extends UserDateAudit {
     private String body;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "restaurant_id")
+    @JoinColumn(name = "restaurant_name")
     private Restaurant restaurant;
 
     @ManyToOne(fetch = FetchType.LAZY)
