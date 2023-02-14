@@ -27,9 +27,9 @@ public class RestaurantController {
     private RestaurantService restaurantService;
 
     @GetMapping("/{restaurantName}")
-    public List<Restaurant> getAllRestaurantNames(
+    public List<String> getAllRestaurantNames(
             @Valid @RequestBody RestaurantRequest restaurantRequest) {
-        List<Restaurant> restaurant = restaurantService.getAllRestaurantNames(restaurantRequest);
+        List<String> restaurant = restaurantService.getAllRestaurantNames(restaurantRequest);
 
         return restaurant;
     }

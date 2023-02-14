@@ -7,7 +7,7 @@ import com.workshop.demo.exception.ResourceNotFoundException;
 import com.workshop.demo.model.User;
 import com.workshop.demo.security.UserPrincipal;
 
-import jakarta.validation.constraints.NotBlank;
+import javax.validation.constraints.NotBlank;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {

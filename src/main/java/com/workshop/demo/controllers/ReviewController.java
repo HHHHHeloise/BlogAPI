@@ -21,12 +21,14 @@ import com.workshop.demo.payload.ReviewRequest;
 import com.workshop.demo.security.CurrentUser;
 import com.workshop.demo.security.UserPrincipal;
 import com.workshop.demo.service.ReviewService;
+import org.springframework.context.annotation.Bean;
 
 @RestController
 @RequestMapping("/api/reviews")
 public class ReviewController {
 
     @Autowired
+
     private ReviewService reviewService;
 
     @GetMapping

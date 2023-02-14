@@ -1,6 +1,5 @@
 package com.workshop.demo.payload;
-
-import jakarta.validation.constraints.NotBlank;
+import javax.validation.constraints.NotBlank;
 import lombok.Data;
 
 @Data

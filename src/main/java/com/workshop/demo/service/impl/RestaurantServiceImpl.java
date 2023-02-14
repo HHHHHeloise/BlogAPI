@@ -27,8 +27,8 @@ public class RestaurantServiceImpl implements RestaurantService {
 
     // return all the restaurants' names in our blog
     @Override
-    public List<Restaurant> getAllRestaurantNames(RestaurantRequest restaurantRequest) {
-        return restaurantRepository.findAllRestaurantNames(Sort.by("name"));
+    public List<String> getAllRestaurantNames(RestaurantRequest restaurantRequest) {
+        return restaurantRepository.findAllRestaurantNames();
     }
 
     // return the score of one specific restaurant with restaurantRequest

@@ -10,7 +10,7 @@ import java.util.List;
 public interface RestaurantService {
 
     // return all the restaurants' names in our blog
-    List<Restaurant> getAllRestaurantNames(RestaurantRequest restaurantRequest);
+    List<String> getAllRestaurantNames(RestaurantRequest restaurantRequest);
 
     // return the score of one specific restaurant with restaurantRequest
     Integer getScore(RestaurantRequest restaurantRequest);

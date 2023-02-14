@@ -13,8 +13,8 @@ import com.workshop.demo.model.Restaurant;
 
 @Repository
 public interface RestaurantRepository extends JpaRepository<Restaurant, Long> {
-    @Query(value = "SELECT name FROM restaurant")
-    List<Restaurant> findAllRestaurantNames(Sort sort);
+    @Query(value = "SELECT name FROM restaurant", nativeQuery = true)
+    List<String> findAllRestaurantNames();
 
     @Query(value = "SELECT AVG(r.score) FROM review r WHERE r.restaurant_name = :name", nativeQuery = true)
     Integer getScore(@Param("name") String name);
