@@ -7,6 +7,9 @@ import com.workshop.demo.payload.RestaurantRequest;
 
 import java.util.List;
 
+import org.springframework.stereotype.Service;
+
+@Service
 public interface RestaurantService {
 
     // return all the restaurants' names in our blog

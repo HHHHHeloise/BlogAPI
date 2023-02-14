@@ -15,6 +15,8 @@ import com.workshop.demo.repository.UserRepository;
 import com.workshop.demo.security.UserPrincipal;
 import com.workshop.demo.service.ReviewService;
 
+import jakarta.annotation.Resource;
+
 public class ReviewServiceImpl implements ReviewService {
 
     private static final String THIS_REVIEW = " this review";
@@ -29,13 +31,13 @@ public class ReviewServiceImpl implements ReviewService {
 
     private static final String REVIEW_DOES_NOT_BELONG_TO_POSTER = "Review does not belong to poster";
 
-    @Autowired
+    @Resource
     private UserRepository userRepository;
 
-    @Autowired
+    @Resource
     private ReviewRepository reviewRepository;
 
-    @Autowired
+    @Resource
     private RestaurantRepository restaurantRepository;
 
     // get all the reviews of the restaurant

@@ -13,6 +13,7 @@ import javax.validation.constraints.Size;
 import org.hibernate.annotations.NaturalId;
 import org.springframework.security.core.GrantedAuthority;
 
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.workshop.demo.model.audit.DateAudit;
@@ -30,6 +31,7 @@ import jakarta.persistence.UniqueConstraint;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+
 
 @EqualsAndHashCode(callSuper = true)
 @Entity

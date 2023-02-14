@@ -2,15 +2,11 @@ package com.workshop.demo.model;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.LongSummaryStatistics;
-import java.util.stream.Collectors;
-
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.NaturalId;
-
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -30,6 +26,7 @@ import jakarta.persistence.UniqueConstraint;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+
 
 @EqualsAndHashCode(callSuper = true)
 @Entity

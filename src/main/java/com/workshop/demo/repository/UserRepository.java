@@ -2,14 +2,13 @@ package com.workshop.demo.repository;
 
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
+
 import com.workshop.demo.exception.ResourceNotFoundException;
 import com.workshop.demo.model.User;
 import com.workshop.demo.security.UserPrincipal;
 
 import javax.validation.constraints.NotBlank;
 
-@Repository
 public interface UserRepository extends JpaRepository<User, Long> {
     Optional<User> findByUsername(@NotBlank String username);
 

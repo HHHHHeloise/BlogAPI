@@ -3,7 +3,7 @@ package com.workshop.demo.service.impl;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Sort;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import com.workshop.demo.exception.ResourceNotFoundException;
@@ -16,9 +16,11 @@ import com.workshop.demo.payload.RestaurantRequest;
 import com.workshop.demo.repository.RestaurantRepository;
 import com.workshop.demo.service.RestaurantService;
 
+import jakarta.annotation.Resource;
+
 @Service
 public class RestaurantServiceImpl implements RestaurantService {
-    @Autowired
+    @Resource
     private RestaurantRepository restaurantRepository;
 
     private static final String ID_STR = "id";

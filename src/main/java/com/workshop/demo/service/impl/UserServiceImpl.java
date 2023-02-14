@@ -17,16 +17,18 @@ import com.workshop.demo.repository.UserRepository;
 import com.workshop.demo.security.UserPrincipal;
 import com.workshop.demo.service.UserService;
 
+import jakarta.annotation.Resource;
+
 @Service
 public class UserServiceImpl implements UserService {
 
-    @Autowired
+    @Resource
     private UserRepository userRepository;
 
-    @Autowired
+    @Resource
     private ReviewRepository reviewRepository;
 
-    @Autowired
+    @Resource
     private PasswordEncoder passwordEncoder;
 
     @Override

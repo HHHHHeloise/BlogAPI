@@ -1,11 +1,14 @@
 package com.workshop.demo.service;
 
+import org.springframework.stereotype.Service;
+
 import com.workshop.demo.model.User;
 import com.workshop.demo.payload.ApiResponse;
 import com.workshop.demo.payload.InfoRequest;
 import com.workshop.demo.payload.UserProfile;
 import com.workshop.demo.security.UserPrincipal;
 
+@Service
 public interface UserService {
 
     UserProfile getUserProfile(String username);

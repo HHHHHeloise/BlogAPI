@@ -1,7 +1,7 @@
 package com.workshop.demo.service;
 
-import org.apache.ibatis.annotations.Mapper;
-import org.springframework.stereotype.Component;
+
+import org.springframework.stereotype.Service;
 
 import com.workshop.demo.model.Review;
 import com.workshop.demo.payload.ApiResponse;
@@ -9,8 +9,9 @@ import com.workshop.demo.payload.ApiResponse;
 import com.workshop.demo.payload.ReviewRequest;
 import com.workshop.demo.security.UserPrincipal;
 
-@Component
-@Mapper
+// @Component
+// @Mapper
+@Service
 public interface ReviewService {
     // get all the reviews of the restaurant
     // review controller @PostMapping("/api/reviews")
