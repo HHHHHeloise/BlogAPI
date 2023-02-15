@@ -1,21 +1,15 @@
 package com.workshop.demo.service;
 
-
-import org.springframework.stereotype.Service;
-
 import com.workshop.demo.model.Review;
 import com.workshop.demo.payload.ApiResponse;
 
 import com.workshop.demo.payload.ReviewRequest;
 import com.workshop.demo.security.UserPrincipal;
 
-// @Component
-// @Mapper
-@Service
 public interface ReviewService {
     // get all the reviews of the restaurant
     // review controller @PostMapping("/api/reviews")
-    Review getRestaurantReview(String name);
+    Review getRestaurantReview(ReviewRequest reviewRequest);
 
     // review controller @PostMapping
     Review addReview(ReviewRequest reviewRequest, Long userId, UserPrincipal currentUser);
@@ -32,5 +26,4 @@ public interface ReviewService {
     // delete the user's specific review with userId and the id of the review
     // review controller @DeleteMapping("/{id}")
     ApiResponse deleteReview(Long userId, Long id, UserPrincipal currentUser);
-
 }

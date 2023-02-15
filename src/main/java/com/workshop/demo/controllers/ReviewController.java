@@ -31,8 +31,8 @@ public class ReviewController {
     private ReviewService reviewService;
 
     @GetMapping
-    public ResponseEntity<Review> getRestaurantReview(@PathVariable(name = "restaurantName") String name) {
-        Review allReviews = reviewService.getRestaurantReview(name);
+    public ResponseEntity<Review> getRestaurantReview(@Valid @RequestBody ReviewRequest reviewRequest) {
+        Review allReviews = reviewService.getRestaurantReview(reviewRequest);
         return new ResponseEntity<>(allReviews, HttpStatus.OK);
     }
 

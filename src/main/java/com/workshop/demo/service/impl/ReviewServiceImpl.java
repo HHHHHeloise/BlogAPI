@@ -2,6 +2,8 @@ package com.workshop.demo.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Service;
+
 import com.workshop.demo.exception.ResourceNotFoundException;
 import com.workshop.demo.exception.BlogapiException;
 import com.workshop.demo.model.Restaurant;
@@ -17,6 +19,7 @@ import com.workshop.demo.service.ReviewService;
 
 import jakarta.annotation.Resource;
 
+@Service
 public class ReviewServiceImpl implements ReviewService {
 
     private static final String THIS_REVIEW = " this review";
@@ -42,9 +45,10 @@ public class ReviewServiceImpl implements ReviewService {
 
     // get all the reviews of the restaurant
     @Override
-    public Review getRestaurantReview(String restaurantName) {
-        return reviewRepository.findByRestaurantName(restaurantName)
-                .orElseThrow(() -> new ResourceNotFoundException(REVIEW_STR, ID_STR, restaurantName));
+    public Review getRestaurantReview(ReviewRequest reviewRequest) {
+        return reviewRepository.findByRestaurantName(reviewRequest.getRestaurantName())
+                .orElseThrow(
+                        () -> new ResourceNotFoundException(REVIEW_STR, ID_STR, reviewRequest.getRestaurantName()));
     }
 
     @Override
