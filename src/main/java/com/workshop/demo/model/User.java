@@ -1,19 +1,14 @@
 package com.workshop.demo.model;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.NaturalId;
-import org.springframework.security.core.GrantedAuthority;
-
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.workshop.demo.model.audit.DateAudit;
@@ -31,7 +26,6 @@ import jakarta.persistence.UniqueConstraint;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-
 
 @EqualsAndHashCode(callSuper = true)
 @Entity
@@ -82,21 +76,12 @@ public class User extends DateAudit {
         }
     }
 
-    private Collection<? extends GrantedAuthority> authorities;
-
-    public User(Long id, String username, String password, String email, String role,
-            Collection<? extends GrantedAuthority> authorities) {
+    public User(Long id, String username, String password, String email, String role) {
         this.id = id;
         this.username = username;
         this.password = password;
         this.email = email;
         this.role = role;
-
-        if (authorities == null) {
-            this.authorities = null;
-        } else {
-            this.authorities = new ArrayList<>(authorities);
-        }
     }
 
     public Long getId() {
@@ -118,18 +103,13 @@ public class User extends DateAudit {
     /**
      * @return String return the role
      */
-    public String getRole(Optional<User> user) {
-        if (email.endsWith("gmail")) {
-            role = "ADMIN";
-        } else {
-            role = "USER";
-        }
+    public String getRole() {
         return role;
     }
 
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return authorities == null ? null : new ArrayList<>(authorities);
-    }
+    // public Collection<? extends GrantedAuthority> getAuthorities() {
+    // return authorities == null ? null : new ArrayList<>(authorities);
+    // }
 
     /**
      * @param id the id to set
@@ -159,12 +139,13 @@ public class User extends DateAudit {
         this.email = email;
     }
 
-    /**
-     * @param authorities the authorities to set
-     */
-    public void setAuthorities(Collection<? extends GrantedAuthority> authorities) {
-        this.authorities = authorities;
-    }
+    // /**
+    // * @param authorities the authorities to set
+    // */
+    // public void setAuthorities(Collection<? extends GrantedAuthority>
+    // authorities) {
+    // this.authorities = authorities;
+    // }
 
     /**
      * @param role the role to set

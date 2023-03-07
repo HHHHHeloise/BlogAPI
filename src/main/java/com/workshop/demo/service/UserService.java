@@ -10,7 +10,7 @@ public interface UserService {
 
     UserProfile getUserProfile(String username);
 
-    User addUser(User user);
+    ApiResponse addUser(User user);
 
     ApiResponse deleteUser(String userName, UserPrincipal currentUser);
 

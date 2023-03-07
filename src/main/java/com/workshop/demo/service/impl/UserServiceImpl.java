@@ -38,24 +38,21 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User addUser(User user) {
+    public ApiResponse addUser(User user) {
         if (userRepository.existsByUsername(user.getUsername())) {
-            ApiResponse apiResponse = new ApiResponse(Boolean.FALSE, "Username is already taken");
-            throw new BadRequestException(apiResponse);
+            throw new BadRequestException("Username is already taken");
         }
-
         if (userRepository.existsByEmail(user.getEmail())) {
-            ApiResponse apiResponse = new ApiResponse(Boolean.FALSE, "Email is already taken");
-            throw new BadRequestException(apiResponse);
+            throw new BadRequestException("Email is already taken");
         }
-        if (user.getEmail().endsWith("gmail")) {
-            user.setRole("ADMIN");
+        if (user.getEmail().endsWith("gmail.com")) {
+            user.setRole("ROLE_ADMIN");
         } else {
-            user.setRole("USER");
+            user.setRole("ROLE_USER");
         }
-        user.setRole(null);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        return userRepository.save(user);
+        userRepository.save(user);
+        return new ApiResponse(Boolean.TRUE, "You successfully sign up an account: " + user.getUsername());
     }
 
     @Override

@@ -3,8 +3,6 @@ package com.workshop.demo.model;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
-
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.workshop.demo.model.audit.UserDateAudit;
 
@@ -21,7 +19,6 @@ import jakarta.persistence.Table;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-
 
 @EqualsAndHashCode(callSuper = true)
 @Entity
@@ -45,7 +42,7 @@ public class Review extends UserDateAudit {
     private String body;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "restaurant_name")
+    @JoinColumn(name = "restaurant_id")
     private Restaurant restaurant;
 
     @ManyToOne(fetch = FetchType.LAZY)
