@@ -23,10 +23,8 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
-
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-
 
 @EqualsAndHashCode(callSuper = true)
 @Entity

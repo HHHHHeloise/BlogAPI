@@ -119,7 +119,7 @@ public class User extends DateAudit {
      * @return String return the role
      */
     public String getRole(Optional<User> user) {
-        if (email.endsWith("gmial")) {
+        if (email.endsWith("gmail")) {
             role = "ADMIN";
         } else {
             role = "USER";

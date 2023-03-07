@@ -16,11 +16,9 @@ import com.workshop.demo.payload.RestaurantRequest;
 import com.workshop.demo.repository.RestaurantRepository;
 import com.workshop.demo.service.RestaurantService;
 
-import jakarta.annotation.Resource;
-
 @Service
 public class RestaurantServiceImpl implements RestaurantService {
-    @Resource
+    @Autowired
     private RestaurantRepository restaurantRepository;
 
     private static final String ID_STR = "id";

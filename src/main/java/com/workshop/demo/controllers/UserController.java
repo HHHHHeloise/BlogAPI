@@ -24,25 +24,19 @@ import com.workshop.demo.security.UserPrincipal;
 import com.workshop.demo.service.UserService;
 
 @RestController
-@RequestMapping("/api/users")
+@RequestMapping("/api")
 public class UserController {
     @Autowired
     private UserService userService;
 
-    // @Autowired
-    // private ReviewService reviewService;
-
-    // @Autowired
-    // private RestaurantService restaurantService;
-
-    @GetMapping("/{username}/profile")
+    @GetMapping("/users/profile/{username}")
     public ResponseEntity<UserProfile> getUserProfile(@PathVariable(value = "username") String username) {
         UserProfile userProfile = userService.getUserProfile(username);
 
         return new ResponseEntity<>(userProfile, HttpStatus.OK);
     }
 
-    @PostMapping
+    @PostMapping("/v1/auth/signup")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<User> addUser(@Valid @RequestBody User user) {
         User newUser = userService.addUser(user);
@@ -50,7 +44,7 @@ public class UserController {
         return new ResponseEntity<>(newUser, HttpStatus.CREATED);
     }
 
-    @DeleteMapping("/{username}")
+    @DeleteMapping("/v1/auth/{username}")
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     public ResponseEntity<ApiResponse> deleteUser(@PathVariable(value = "username") String username,
             @CurrentUser UserPrincipal currentUser) {
@@ -59,7 +53,7 @@ public class UserController {
         return new ResponseEntity<>(apiResponse, HttpStatus.OK);
     }
 
-    @PutMapping("/setOrUpdateInfo")
+    @PutMapping("/v1/auth/setOrUpdateInfo")
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     public ResponseEntity<UserProfile> setOrUpdateInfo(@CurrentUser UserPrincipal currentUser,
             @Valid @RequestBody InfoRequest infoRequest) {

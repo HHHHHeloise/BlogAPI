@@ -17,18 +17,16 @@ import com.workshop.demo.repository.UserRepository;
 import com.workshop.demo.security.UserPrincipal;
 import com.workshop.demo.service.UserService;
 
-import jakarta.annotation.Resource;
-
 @Service
 public class UserServiceImpl implements UserService {
 
-    @Resource
+    @Autowired
     private UserRepository userRepository;
 
-    @Resource
+    @Autowired
     private ReviewRepository reviewRepository;
 
-    @Resource
+    @Autowired
     private PasswordEncoder passwordEncoder;
 
     @Override
@@ -50,7 +48,12 @@ public class UserServiceImpl implements UserService {
             ApiResponse apiResponse = new ApiResponse(Boolean.FALSE, "Email is already taken");
             throw new BadRequestException(apiResponse);
         }
-
+        if (user.getEmail().endsWith("gmail")) {
+            user.setRole("ADMIN");
+        } else {
+            user.setRole("USER");
+        }
+        user.setRole(null);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         return userRepository.save(user);
     }
