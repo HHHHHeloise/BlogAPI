@@ -24,6 +24,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import com.workshop.demo.service.CustomUserDetailsService;
+import com.workshop.demo.service.impl.CustomUserDetailsServiceImpl;
 import com.workshop.demo.user.UserDao;
 
 import lombok.RequiredArgsConstructor;
@@ -34,7 +36,8 @@ import lombok.RequiredArgsConstructor;
 
 public class SecurityConfig {
     private final JwtAuthFilter jwtAuthFilter;
-    private final UserDao userDao;
+    // private final UserDao userDao;
+    private final CustomUserDetailsServiceImpl customUserDetailsService;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -85,9 +88,13 @@ public class SecurityConfig {
     public UserDetailsService userDetailsService() {
         return new UserDetailsService() {
             @Override
-            public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-                return userDao.findUserByEmail(email);
+            public UserDetails loadUserByUsername(String name) throws UsernameNotFoundException {
+                return customUserDetailsService.loadUserByUsername(name);
             }
         };
+    }
+
+    public void configure(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception {
+        authenticationManagerBuilder.userDetailsService(customUserDetailsService).passwordEncoder(passwordEncoder());
     }
 }
