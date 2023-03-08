@@ -26,7 +26,6 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 import com.workshop.demo.service.CustomUserDetailsService;
 import com.workshop.demo.service.impl.CustomUserDetailsServiceImpl;
-import com.workshop.demo.user.UserDao;
 
 import lombok.RequiredArgsConstructor;
 
