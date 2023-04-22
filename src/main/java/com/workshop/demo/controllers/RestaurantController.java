@@ -18,6 +18,7 @@ import com.workshop.demo.model.User;
 import com.workshop.demo.payload.ApiResponse;
 import com.workshop.demo.payload.RestaurantRequest;
 import com.workshop.demo.security.CurrentUser;
+import com.workshop.demo.security.UserPrincipal;
 import com.workshop.demo.service.RestaurantService;
 
 @RestController
@@ -45,8 +46,8 @@ public class RestaurantController {
 
     @PostMapping("/add")
     public Restaurant addRestaurant(@Valid @RequestBody RestaurantRequest restaurantRequest,
-            @CurrentUser User user) {
-        Restaurant restaurant = restaurantService.addRestaurant(restaurantRequest, user);
+            @CurrentUser UserPrincipal userPrincipal) {
+        Restaurant restaurant = restaurantService.addRestaurant(restaurantRequest, userPrincipal);
 
         return restaurant;
     }
