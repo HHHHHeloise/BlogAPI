@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.workshop.demo.exception.BadRequestException;
-import com.workshop.demo.model.Restaurant;
 import com.workshop.demo.model.User;
 import com.workshop.demo.payload.ApiResponse;
 import com.workshop.demo.payload.RestaurantRequest;
@@ -48,22 +47,22 @@ public class RestaurantController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<Restaurant> addRestaurant(@Valid @RequestBody RestaurantRequest restaurantRequest,
+    public ResponseEntity<ApiResponse> addRestaurant(@Valid @RequestBody RestaurantRequest restaurantRequest,
             @CurrentUser UserPrincipal userPrincipal) {
         ApiResponse apiResponse = new ApiResponse();
         // RestaurantResponse restaurantResponse = new RestaurantResponse();
-        Restaurant restaurant = new Restaurant();
         try {
-            restaurant = restaurantService.addRestaurant(restaurantRequest, userPrincipal);
+            // Restaurant restaurant = restaurantService.addRestaurant(restaurantRequest,
+            // userPrincipal);
             apiResponse.setSuccess(true);
             apiResponse.setMessage("restaurant added");
-            return new ResponseEntity<>(restaurant, HttpStatus.CREATED);
+            return new ResponseEntity<>(apiResponse, HttpStatus.CREATED);
         } catch (Exception e) {
             HttpStatus status = e.getClass().equals(BadRequestException.class) ? HttpStatus.BAD_REQUEST
                     : HttpStatus.INTERNAL_SERVER_ERROR;
             apiResponse.setSuccess(false);
             apiResponse.setMessage(e.getMessage());
-            return new ResponseEntity<>(restaurant, status);
+            return new ResponseEntity<>(apiResponse, status);
         }
     }
 
