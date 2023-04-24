@@ -72,12 +72,12 @@ public class RestaurantServiceImpl implements RestaurantService {
         Restaurant restaurant = restaurantRepository.findByName(restaurantRequest.getRestaurantName())
                 .orElseThrow(() -> new ResourceNotFoundException(THIS_RESTAURANT, ID_STR,
                         restaurantRequest.getRestaurantName()));
-        boolean isAdmin = userPrincipal.getAuthorities().stream().anyMatch(auth -> auth.equals("admin"));
-        if (!isAdmin) {
+        boolean isAdmin = userPrincipal.getAuthorities().stream().anyMatch(auth -> auth.equals("ROLE_ADMIN"));
+        if (isAdmin == false) {
             return new ApiResponse(Boolean.FALSE, "This is not your restaurant");
         }
 
-        if (isAdmin) {
+        if (isAdmin == true) {
             restaurantRepository.deleteById(restaurant.getId());
             return new ApiResponse(Boolean.TRUE, "You successfully deleted review");
         }
