@@ -26,7 +26,6 @@ public abstract class DateAudit implements Serializable {
     private Instant createdAt;
 
     @LastModifiedDate
-
     private Instant updatedAt;
 
 }

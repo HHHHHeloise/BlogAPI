@@ -2,11 +2,15 @@ package com.workshop.demo.security;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Objects;
+
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.workshop.demo.model.User;
 
 public class UserPrincipal implements UserDetails {
     private static final long serialVersionUID = 1L;
@@ -41,14 +45,16 @@ public class UserPrincipal implements UserDetails {
         }
     }
 
-    // public static UserPrincipal create(User user) {
-    // List<GrantedAuthority> authorities = user.getRole().stream()
-    // .map(role -> new
-    // SimpleGrantedAuthority(role.getName().name())).collect(Collectors.toList());
+    public static UserPrincipal create(User user) {
+        List<GrantedAuthority> authorities = new ArrayList<>();
+        authorities.add(new SimpleGrantedAuthority(user.getRole()));
+        // user.getRole().stream()
+        // .map(role -> new
+        // SimpleGrantedAuthority(role.getName().name())).collect(Collectors.toList());
 
-    // return new UserPrincipal(user.getId(), user.getUsername(),
-    // user.getEmail(), user.getPassword(), authorities);
-    // }
+        return new UserPrincipal(user.getId(), user.getUsername(),
+                user.getEmail(), user.getPassword(), authorities);
+    }
 
     public Long getId() {
         return id;

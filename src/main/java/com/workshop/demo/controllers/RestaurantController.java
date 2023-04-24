@@ -1,5 +1,12 @@
 package com.workshop.demo.controllers;
 
+import java.util.List;
+
+import javax.validation.Valid;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -7,16 +14,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.beans.factory.annotation.Autowired;
-import java.util.List;
 
-import javax.validation.Valid;
-
-import com.workshop.demo.model.Restaurant;
+import com.workshop.demo.exception.BadRequestException;
 import com.workshop.demo.model.User;
 import com.workshop.demo.payload.ApiResponse;
 import com.workshop.demo.payload.RestaurantRequest;
 import com.workshop.demo.security.CurrentUser;
+import com.workshop.demo.security.UserPrincipal;
 import com.workshop.demo.service.RestaurantService;
 
 @RestController
@@ -42,13 +46,24 @@ public class RestaurantController {
         return score;
     }
 
-    @PostMapping
-    @PreAuthorize("hasRole('USER')")
-    public Restaurant addRestaurant(@Valid @RequestBody RestaurantRequest restaurantRequest,
-            @CurrentUser User user) {
-        Restaurant restaurant = restaurantService.addRestaurant(restaurantRequest, user);
-
-        return restaurant;
+    @PostMapping("/add")
+    public ResponseEntity<ApiResponse> addRestaurant(@Valid @RequestBody RestaurantRequest restaurantRequest,
+            @CurrentUser UserPrincipal userPrincipal) {
+        ApiResponse apiResponse = new ApiResponse();
+        // RestaurantResponse restaurantResponse = new RestaurantResponse();
+        try {
+            // Restaurant restaurant = restaurantService.addRestaurant(restaurantRequest,
+            // userPrincipal);
+            apiResponse.setSuccess(true);
+            apiResponse.setMessage("restaurant added");
+            return new ResponseEntity<>(apiResponse, HttpStatus.CREATED);
+        } catch (Exception e) {
+            HttpStatus status = e.getClass().equals(BadRequestException.class) ? HttpStatus.BAD_REQUEST
+                    : HttpStatus.INTERNAL_SERVER_ERROR;
+            apiResponse.setSuccess(false);
+            apiResponse.setMessage(e.getMessage());
+            return new ResponseEntity<>(apiResponse, status);
+        }
     }
 
     @DeleteMapping("/{email}")

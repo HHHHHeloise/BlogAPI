@@ -7,19 +7,22 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.workshop.demo.config.JwtUtils;
+import com.workshop.demo.config.JwtTokenProvider;
 import com.workshop.demo.exception.BadRequestException;
 import com.workshop.demo.model.User;
 import com.workshop.demo.payload.ApiResponse;
 import com.workshop.demo.payload.AuthenticationRequest;
-import com.workshop.demo.user.UserDao;
+
 import com.workshop.demo.service.UserService;
+import com.workshop.demo.service.impl.CustomUserDetailsServiceImpl;
+
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -29,9 +32,9 @@ public class AuthenticationController {
 
     @Autowired
     private final AuthenticationManager authenticationManager;
-    private final UserDao userDao;
-    private final JwtUtils jwtUtils;
 
+    private final JwtTokenProvider jwtTokenProvider;
+    private final CustomUserDetailsServiceImpl userDetailsServiceImpl;
     // public AuthenticationController(AuthenticationManager authenticationManager,
     // UserDao userDao, JwtUtils jwtUtils) {
     // this.authenticationManager = authenticationManager;
@@ -43,12 +46,16 @@ public class AuthenticationController {
     public ResponseEntity<String> authenticate(
             @RequestBody AuthenticationRequest request) {
         System.out.print("Hello");
-        authenticationManager.authenticate(
+        Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword()));
-        final UserDetails user = userDao.findUserByEmail(request.getEmail());
+
+        // authenticationManager.authenticate(
+        // new UsernamePasswordAuthenticationToken(request.getEmail(),
+        // request.getPassword()));
+        final UserDetails user = userDetailsServiceImpl.loadUserByUsername(request.getEmail());
         System.out.print("lalalala");
         if (user != null) {
-            return ResponseEntity.ok(jwtUtils.generateToken(user));
+            return ResponseEntity.ok(jwtTokenProvider.generateToken(authentication));
         }
         return ResponseEntity.status(400).body("Some error has occured");
     }

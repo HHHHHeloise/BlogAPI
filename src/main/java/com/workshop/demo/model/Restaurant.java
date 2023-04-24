@@ -1,19 +1,20 @@
 package com.workshop.demo.model;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.NaturalId;
+
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.workshop.demo.model.audit.UserDateAudit;
 
-import java.util.Collections;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -31,7 +32,7 @@ import lombok.EqualsAndHashCode;
 @Data
 @Table(name = "Restaurants", uniqueConstraints = { @UniqueConstraint(columnNames = { "name" }),
         @UniqueConstraint(columnNames = { "email" }) })
-@JsonIgnoreProperties(value = { "updatedBy" })
+// @JsonIgnoreProperties(value = { "updatedBy", "updatedAt", "createdBy" })
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class Restaurant extends UserDateAudit {
     private static final long serialVersionUID = 1L;
@@ -142,19 +143,5 @@ public class Restaurant extends UserDateAudit {
     public void setLocation(String location) {
         this.location = location;
     }
-
-    /**
-     * @return int return the score
-     */
-    // public int getScore() {
-    // return (int) lss.getAverage();
-    // }
-
-    // /**
-    // * @param score the score to set
-    // */
-    // public void setScore(int score) {
-    // this.score = score;
-    // }
 
 }
