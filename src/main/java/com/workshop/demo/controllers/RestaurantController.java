@@ -30,11 +30,10 @@ public class RestaurantController {
     @Autowired
     private RestaurantService restaurantService;
 
-    @GetMapping("/{restaurantName}")
+    @GetMapping("/AllrestaurantNames")
     public List<String> getAllRestaurantNames(
             @Valid @RequestBody RestaurantRequest restaurantRequest) {
         List<String> restaurant = restaurantService.getAllRestaurantNames(restaurantRequest);
-
         return restaurant;
     }
 
