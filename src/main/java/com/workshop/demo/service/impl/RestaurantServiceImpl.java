@@ -12,7 +12,6 @@ import com.workshop.demo.exception.BadRequestException;
 import com.workshop.demo.exception.BlogapiException;
 import com.workshop.demo.exception.ResourceNotFoundException;
 import com.workshop.demo.model.Restaurant;
-import com.workshop.demo.model.User;
 import com.workshop.demo.payload.ApiResponse;
 import com.workshop.demo.payload.RestaurantRequest;
 import com.workshop.demo.repository.RestaurantRepository;
@@ -69,16 +68,16 @@ public class RestaurantServiceImpl implements RestaurantService {
 
     // delete the restaurant when the user is admin
     @Override
-    public ApiResponse deleteRestaurant(User user, RestaurantRequest restaurantRequest) {
+    public ApiResponse deleteRestaurant(UserPrincipal userPrincipal, RestaurantRequest restaurantRequest) {
         Restaurant restaurant = restaurantRepository.findByName(restaurantRequest.getRestaurantName())
                 .orElseThrow(() -> new ResourceNotFoundException(THIS_RESTAURANT, ID_STR,
                         restaurantRequest.getRestaurantName()));
-        String admin = new String("admin");
-        if (user.getRole() != admin) {
+        boolean isAdmin = userPrincipal.getAuthorities().stream().anyMatch(auth -> auth.equals("admin"));
+        if (!isAdmin) {
             return new ApiResponse(Boolean.FALSE, "This is not your restaurant");
         }
 
-        if (user.getRole() == admin) {
+        if (isAdmin) {
             restaurantRepository.deleteById(restaurant.getId());
             return new ApiResponse(Boolean.TRUE, "You successfully deleted review");
         }

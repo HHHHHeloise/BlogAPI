@@ -3,7 +3,6 @@ package com.workshop.demo.service;
 import java.util.List;
 
 import com.workshop.demo.model.Restaurant;
-import com.workshop.demo.model.User;
 import com.workshop.demo.payload.ApiResponse;
 import com.workshop.demo.payload.RestaurantRequest;
 import com.workshop.demo.security.UserPrincipal;
@@ -20,5 +19,5 @@ public interface RestaurantService {
     Restaurant addRestaurant(RestaurantRequest restaurantRequest, UserPrincipal userPrincipal);
 
     // delete the restaurant when the user is admin
-    ApiResponse deleteRestaurant(User user, RestaurantRequest restaurantRequest);
+    ApiResponse deleteRestaurant(UserPrincipal userPrincipal, RestaurantRequest restaurantRequest);
 }
