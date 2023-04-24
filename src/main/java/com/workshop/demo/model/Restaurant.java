@@ -30,7 +30,7 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 @Entity
 @Data
-@Table(name = "Restaurants", uniqueConstraints = { @UniqueConstraint(columnNames = { "name" }),
+@Table(name = "Restaurant", uniqueConstraints = { @UniqueConstraint(columnNames = { "name" }),
         @UniqueConstraint(columnNames = { "email" }) })
 // @JsonIgnoreProperties(value = { "updatedBy", "updatedAt", "createdBy" })
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")

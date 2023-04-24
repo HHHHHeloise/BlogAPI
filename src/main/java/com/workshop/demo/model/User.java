@@ -9,6 +9,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.NaturalId;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.workshop.demo.model.audit.DateAudit;
@@ -22,7 +23,6 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
-
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -31,7 +31,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @Data
 @NoArgsConstructor
-@Table(name = "users", uniqueConstraints = { @UniqueConstraint(columnNames = { "username" }),
+@Table(name = "User", uniqueConstraints = { @UniqueConstraint(columnNames = { "username" }),
         @UniqueConstraint(columnNames = { "email" }) })
 public class User extends DateAudit {
     private static final long serialVersionUID = 1L;

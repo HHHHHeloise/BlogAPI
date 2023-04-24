@@ -30,7 +30,7 @@ public class RestaurantController {
     @Autowired
     private RestaurantService restaurantService;
 
-    @GetMapping("/AllrestaurantNames")
+    @GetMapping("/AllRestaurantNames")
     public List<String> getAllRestaurantNames(
             @Valid @RequestBody RestaurantRequest restaurantRequest) {
         List<String> restaurant = restaurantService.getAllRestaurantNames(restaurantRequest);
