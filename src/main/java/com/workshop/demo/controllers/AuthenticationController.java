@@ -3,8 +3,8 @@ package com.workshop.demo.controllers;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -19,7 +19,6 @@ import com.workshop.demo.exception.BadRequestException;
 import com.workshop.demo.model.User;
 import com.workshop.demo.payload.ApiResponse;
 import com.workshop.demo.payload.AuthenticationRequest;
-
 import com.workshop.demo.service.UserService;
 import com.workshop.demo.service.impl.CustomUserDetailsServiceImpl;
 
@@ -49,9 +48,9 @@ public class AuthenticationController {
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword()));
 
-        // authenticationManager.authenticate(
-        // new UsernamePasswordAuthenticationToken(request.getEmail(),
-        // request.getPassword()));
+        authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(request.getEmail(),
+                        request.getPassword()));
         final UserDetails user = userDetailsServiceImpl.loadUserByUsername(request.getEmail());
         System.out.print("lalalala");
         if (user != null) {

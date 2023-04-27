@@ -1,5 +1,10 @@
 package com.workshop.demo.controllers;
 
+import javax.validation.Valid;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -9,11 +14,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-
-import javax.validation.Valid;
 
 import com.workshop.demo.model.Review;
 import com.workshop.demo.payload.ApiResponse;
@@ -30,22 +30,25 @@ public class ReviewController {
 
     private ReviewService reviewService;
 
-    @GetMapping
+    @GetMapping("/getWithRestaurantName")
     public ResponseEntity<Review> getRestaurantReview(@Valid @RequestBody ReviewRequest reviewRequest) {
         Review allReviews = reviewService.getRestaurantReview(reviewRequest);
         return new ResponseEntity<>(allReviews, HttpStatus.OK);
     }
 
-    @PostMapping
-    @PreAuthorize("hasRole('USER')")
+    @PostMapping("/add/{userId}")
+    // @PreAuthorize("hasRole('USER')")
     public ResponseEntity<Review> addReview(@Valid @RequestBody ReviewRequest reviewRequest,
             @PathVariable(name = "userId") Long userId, @CurrentUser UserPrincipal currentUser) {
+
         Review newReview = reviewService.addReview(reviewRequest, userId, currentUser);
 
         return new ResponseEntity<>(newReview, HttpStatus.CREATED);
     }
 
-    @GetMapping("/{id}")
+    // get the user's specific review with userId and the id of the review
+    // review controller @GetMapping("/{id}")
+    @GetMapping("/getWithUserId/{id}")
     public ResponseEntity<Review> getReview(@PathVariable(name = "userId") Long userId,
             @PathVariable(name = "id") Long id) {
         Review review = reviewService.getReview(userId, id);
@@ -53,7 +56,7 @@ public class ReviewController {
         return new ResponseEntity<>(review, HttpStatus.OK);
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/updateWithUserId/{id}")
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     public ResponseEntity<Review> updateReview(@PathVariable(name = "userId") Long userId,
             @PathVariable(name = "id") Long id, @Valid @RequestBody ReviewRequest reviewRequest,
@@ -64,8 +67,8 @@ public class ReviewController {
         return new ResponseEntity<>(updatedReview, HttpStatus.OK);
     }
 
-    @DeleteMapping("/{id}")
-    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+    @DeleteMapping("/deleteWithUserId/user/{userId}/review/{id}")
+    // @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     public ResponseEntity<ApiResponse> deleteReview(@PathVariable(name = "userId") Long userId,
             @PathVariable(name = "id") Long id, @CurrentUser UserPrincipal currentUser) {
 

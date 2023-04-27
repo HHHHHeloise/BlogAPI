@@ -1,11 +1,13 @@
 package com.workshop.demo.service.impl;
 
+import java.time.Instant;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
-import com.workshop.demo.exception.ResourceNotFoundException;
 import com.workshop.demo.exception.BlogapiException;
+import com.workshop.demo.exception.ResourceNotFoundException;
 import com.workshop.demo.model.Restaurant;
 import com.workshop.demo.model.Review;
 import com.workshop.demo.model.User;
@@ -56,6 +58,8 @@ public class ReviewServiceImpl implements ReviewService {
                         reviewRequest.getRestaurantName()));
         User user = userRepository.getUser(currentUser);
         Review review = new Review(reviewRequest.getBody());
+        review.setCreatedAt(Instant.now());
+        review.setCreatedBy(user.getId());
         review.setUser(user);
         review.setScore(reviewRequest.getScore());
         review.setRestaurant(restaurant);
@@ -98,9 +102,9 @@ public class ReviewServiceImpl implements ReviewService {
         Review review = reviewRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException(REVIEW_STR, ID_STR, id));
 
-        if (review.getUser().getId() != id) {
-            return new ApiResponse(Boolean.FALSE, REVIEW_DOES_NOT_BELONG_TO_POSTER);
-        }
+        // if (review.getUser().getId() != userId) {
+        // return new ApiResponse(Boolean.FALSE, REVIEW_DOES_NOT_BELONG_TO_POSTER);
+        // }
 
         if (review.getUser().getId().equals(currentUser.getId())) {
             reviewRepository.deleteById(review.getId());

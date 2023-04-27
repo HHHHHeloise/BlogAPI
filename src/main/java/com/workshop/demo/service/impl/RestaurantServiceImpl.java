@@ -6,6 +6,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Service;
 
 import com.workshop.demo.exception.BadRequestException;
@@ -52,10 +53,6 @@ public class RestaurantServiceImpl implements RestaurantService {
             throw new BadRequestException("Has existing restaurant with this name");
         }
         Restaurant restaurant = new Restaurant();
-        // final SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd
-        // HH:mm:ss");
-        // Date d1 = new Date(System.currentTimeMillis());
-        // restaurant.setCreatedAt(formatter.format(d1));
         restaurant.setCreatedAt(Instant.now());
         restaurant.setCreatedBy(userPrincipal.getId());
         restaurant.setId(restaurantRequest.getId());
@@ -72,7 +69,8 @@ public class RestaurantServiceImpl implements RestaurantService {
         Restaurant restaurant = restaurantRepository.findByName(restaurantRequest.getRestaurantName())
                 .orElseThrow(() -> new ResourceNotFoundException(THIS_RESTAURANT, ID_STR,
                         restaurantRequest.getRestaurantName()));
-        boolean isAdmin = userPrincipal.getAuthorities().stream().anyMatch(auth -> auth.equals("ROLE_ADMIN"));
+        SimpleGrantedAuthority role = new SimpleGrantedAuthority("ROLE_ADMIN");
+        boolean isAdmin = userPrincipal.getAuthorities().stream().anyMatch(auth -> auth.equals(role));
         if (isAdmin == false) {
             return new ApiResponse(Boolean.FALSE, "This is not your restaurant");
         }

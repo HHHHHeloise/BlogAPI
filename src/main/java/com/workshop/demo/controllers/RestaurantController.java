@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.workshop.demo.exception.BadRequestException;
+import com.workshop.demo.model.Restaurant;
 import com.workshop.demo.payload.ApiResponse;
 import com.workshop.demo.payload.RestaurantRequest;
 import com.workshop.demo.security.CurrentUser;
@@ -50,8 +51,8 @@ public class RestaurantController {
         ApiResponse apiResponse = new ApiResponse();
         // RestaurantResponse restaurantResponse = new RestaurantResponse();
         try {
-            // Restaurant restaurant = restaurantService.addRestaurant(restaurantRequest,
-            // userPrincipal);
+            Restaurant restaurant = restaurantService.addRestaurant(restaurantRequest,
+                    userPrincipal);
             apiResponse.setSuccess(true);
             apiResponse.setMessage("restaurant added");
             return new ResponseEntity<>(apiResponse, HttpStatus.CREATED);
@@ -64,7 +65,7 @@ public class RestaurantController {
         }
     }
 
-    @DeleteMapping("/{email}")
+    @DeleteMapping("/delete")
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     public ApiResponse deleteRestaurant(@CurrentUser UserPrincipal userPrincipal,
             @RequestBody RestaurantRequest restaurantRequest) {
