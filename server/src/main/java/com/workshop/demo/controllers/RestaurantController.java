@@ -24,7 +24,7 @@ import com.workshop.demo.security.UserPrincipal;
 import com.workshop.demo.service.RestaurantService;
 
 @RestController
-@RequestMapping("/api/restaurants")
+@RequestMapping("/api/v1/restaurants")
 public class RestaurantController {
 
     @Autowired
