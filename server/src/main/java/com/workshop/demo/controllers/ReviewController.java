@@ -23,7 +23,7 @@ import com.workshop.demo.security.UserPrincipal;
 import com.workshop.demo.service.ReviewService;
 
 @RestController
-@RequestMapping("/api/reviews")
+@RequestMapping("/api/v1/reviews")
 public class ReviewController {
 
     @Autowired
