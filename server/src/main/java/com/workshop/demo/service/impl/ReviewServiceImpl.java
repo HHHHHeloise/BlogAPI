@@ -1,6 +1,7 @@
 package com.workshop.demo.service.impl;
 
 import java.time.Instant;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -52,7 +53,7 @@ public class ReviewServiceImpl implements ReviewService {
     }
 
     @Override
-    public Review addReview(ReviewRequest reviewRequest, Long userId, UserPrincipal currentUser) {
+    public Review addReview(ReviewRequest reviewRequest, UserPrincipal currentUser) {
         Restaurant restaurant = restaurantRepository.findByName(reviewRequest.getRestaurantName())
                 .orElseThrow(() -> new ResourceNotFoundException(THIS_RESTAURANT, ID_STR,
                         reviewRequest.getRestaurantName()));
@@ -83,13 +84,17 @@ public class ReviewServiceImpl implements ReviewService {
             UserPrincipal currentUser) {
         Review review = reviewRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException(REVIEW_STR, ID_STR, id));
-
+        Optional<Restaurant> restaurantOptional = restaurantRepository
+                .findByName(reviewRequest.getRestaurantName());
         if (review.getUser().getId() != id) {
             throw new BlogapiException(HttpStatus.BAD_REQUEST, REVIEW_DOES_NOT_BELONG_TO_POSTER);
         }
 
-        if (review.getUser().getId() == currentUser.getId()) {
+        if (review.getUser().getId() == currentUser.getId() && restaurantOptional.isPresent() == true) {
+            review.setScore(reviewRequest.getScore());
             review.setBody(reviewRequest.getBody());
+            review.setRestaurant(null);
+            review.setRestaurant(restaurantOptional.get());
             return reviewRepository.save(review);
         }
 

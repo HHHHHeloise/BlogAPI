@@ -30,25 +30,25 @@ public class ReviewController {
 
     private ReviewService reviewService;
 
-    @GetMapping("/getWithRestaurantName")
+    @GetMapping("/getWithRestaurantName") // checked
     public ResponseEntity<Review> getRestaurantReview(@Valid @RequestBody ReviewRequest reviewRequest) {
         Review allReviews = reviewService.getRestaurantReview(reviewRequest);
         return new ResponseEntity<>(allReviews, HttpStatus.OK);
     }
 
-    @PostMapping("/add/{userId}")
-    // @PreAuthorize("hasRole('USER')")
+    @PostMapping("/add")
+    // @PreAuthorize("hasRole('USER')") checked
     public ResponseEntity<Review> addReview(@Valid @RequestBody ReviewRequest reviewRequest,
             @PathVariable(name = "userId") Long userId, @CurrentUser UserPrincipal currentUser) {
 
-        Review newReview = reviewService.addReview(reviewRequest, userId, currentUser);
+        Review newReview = reviewService.addReview(reviewRequest, currentUser);
 
         return new ResponseEntity<>(newReview, HttpStatus.CREATED);
     }
 
     // get the user's specific review with userId and the id of the review
-    // review controller @GetMapping("/{id}")
-    @GetMapping("/getWithUserId/{id}")
+    // review controller @GetMapping("/{id}") checked
+    @GetMapping("/getWithUserId/user/{userId}/review/{id}")
     public ResponseEntity<Review> getReview(@PathVariable(name = "userId") Long userId,
             @PathVariable(name = "id") Long id) {
         Review review = reviewService.getReview(userId, id);
@@ -56,7 +56,7 @@ public class ReviewController {
         return new ResponseEntity<>(review, HttpStatus.OK);
     }
 
-    @PutMapping("/updateWithUserId/{id}")
+    @PutMapping("/updateWithUserId/user/{userId}/review/{id}")
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     public ResponseEntity<Review> updateReview(@PathVariable(name = "userId") Long userId,
             @PathVariable(name = "id") Long id, @Valid @RequestBody ReviewRequest reviewRequest,
@@ -68,7 +68,7 @@ public class ReviewController {
     }
 
     @DeleteMapping("/deleteWithUserId/user/{userId}/review/{id}")
-    // @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+    // @PreAuthorize("hasRole('USER') or hasRole('ADMIN')") checked
     public ResponseEntity<ApiResponse> deleteReview(@PathVariable(name = "userId") Long userId,
             @PathVariable(name = "id") Long id, @CurrentUser UserPrincipal currentUser) {
 

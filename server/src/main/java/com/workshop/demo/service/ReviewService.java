@@ -11,7 +11,7 @@ public interface ReviewService {
     Review getRestaurantReview(ReviewRequest reviewRequest);
 
     // review controller @PostMapping
-    Review addReview(ReviewRequest reviewRequest, Long userId, UserPrincipal currentUser);
+    Review addReview(ReviewRequest reviewRequest, UserPrincipal currentUser);
 
     // get the user's specific review with userId and the id of the review
     // review controller @GetMapping("/{id}")
