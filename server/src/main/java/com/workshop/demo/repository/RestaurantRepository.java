@@ -12,12 +12,20 @@ public interface RestaurantRepository extends JpaRepository<Restaurant, Long> {
     @Query(value = "SELECT name FROM restaurant", nativeQuery = true)
     List<String> findAllRestaurantNames();
 
-    @Query(value = "SELECT AVG(r.score) FROM review r WHERE r.restaurant_name = :name", nativeQuery = true)
-    Integer getScore(@Param("name") String name);
+    @Query(value = "SELECT DISTINCT r FROM Restaurant r JOIN r.reviews rev WHERE rev.score >= :score", nativeQuery = false)
+    List<Restaurant> findRestaurantsWithScoreGreaterThanOrEqual(@Param("score") int score);
 
-    Optional<Restaurant> findByName(String name);
+    @Query("SELECT r FROM Restaurant r WHERE LOWER(r.name) LIKE LOWER(:name) AND LOWER(r.location) LIKE LOWER(:location)")
+    List<Restaurant> findByNameAndLocationIgnoreCase(String name, String location);
 
-    List<Restaurant> findByCreatedBy(Long userId);
+    // @Query("SELECT r FROM Restaurant r WHERE LOWER(r.name) = LOWER(:name)")
+    // Optional<Restaurant> findByNameIgnoreCase(String name);
+
+    List<Restaurant> findByName(String name);
+
+    Optional<Restaurant> findById(String id);
+
+    List<Restaurant> findByCreatedBy(Long createdBy);
 
     List<Restaurant> findByEmail(String email);
 

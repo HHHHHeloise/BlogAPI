@@ -15,5 +15,17 @@ public class ReviewRequest {
     private String body;
 
     @NotBlank
-    private String restaurantName;
+    private String restaurantId;
+
+    public Integer getScore() {
+        return score;
+    }
+
+    public String getRestaurantId() {
+        return restaurantId;
+    }
+
+    public String getBody() {
+        return body;
+    }
 }

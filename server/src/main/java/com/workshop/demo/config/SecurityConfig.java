@@ -56,12 +56,25 @@ public class SecurityConfig {
                 .csrf().disable()
                 .cors()
                 .and()
-                .authorizeHttpRequests()
-                .requestMatchers("/api/v1/auth/*")
-                .permitAll()
-                .anyRequest()
-                .authenticated()
-                .and()
+                .authorizeHttpRequests(
+                        auth -> auth
+                                .requestMatchers(
+                                        "/api/v1/restaurants/AllRestaurantNames",
+                                        "/api/v1/restaurants/byScore",
+                                        "/api/v1/restaurants/search", "/api/v1/restaurants/searchByLocation",
+                                        "/api/v1/restaurants/{restaurantId}",
+                                        "/api/v1/reviews/add")
+                                .permitAll()
+                                .requestMatchers("/api/v1/auth/*",
+                                        "/api/v1/favorites/**")
+                                .permitAll()
+                                .anyRequest()
+                                .authenticated())
+                // .requestMatchers("/api/v1/auth/*")
+                // .permitAll()
+                // .anyRequest()
+                // .authenticated()
+                // .and()
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()

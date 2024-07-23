@@ -45,10 +45,10 @@ public class UserServiceImpl implements UserService {
         if (userRepository.existsByEmail(user.getEmail())) {
             throw new BadRequestException("Email is already taken");
         }
-        if (user.getEmail().endsWith("gmail.com")) {
-            user.setRole("ROLE_ADMIN");
+        if (user.getRole().equals("owner")) {
+            user.setRole("OWNER");
         } else {
-            user.setRole("ROLE_USER");
+            user.setRole("CUSTOMER");
         }
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         userRepository.save(user);

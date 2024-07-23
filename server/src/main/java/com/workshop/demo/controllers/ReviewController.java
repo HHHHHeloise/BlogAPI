@@ -39,7 +39,7 @@ public class ReviewController {
     @PostMapping("/add")
     // @PreAuthorize("hasRole('USER')") checked
     public ResponseEntity<Review> addReview(@Valid @RequestBody ReviewRequest reviewRequest,
-            @PathVariable(name = "userId") Long userId, @CurrentUser UserPrincipal currentUser) {
+            @CurrentUser UserPrincipal currentUser) {
 
         Review newReview = reviewService.addReview(reviewRequest, currentUser);
 

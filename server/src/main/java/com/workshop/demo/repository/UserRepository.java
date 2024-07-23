@@ -1,11 +1,8 @@
 package com.workshop.demo.repository;
 
 import java.util.Optional;
-
 import javax.validation.constraints.NotBlank;
-
 import org.springframework.data.jpa.repository.JpaRepository;
-
 import com.workshop.demo.exception.ResourceNotFoundException;
 import com.workshop.demo.model.User;
 import com.workshop.demo.security.UserPrincipal;

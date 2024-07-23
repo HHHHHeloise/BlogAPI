@@ -2,6 +2,7 @@ package com.workshop.demo.model;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 
 import javax.validation.constraints.Email;
@@ -17,6 +18,8 @@ import com.workshop.demo.model.audit.DateAudit;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -59,10 +62,20 @@ public class User extends DateAudit {
     @Email
     private String email;
 
+    // @Enumerated(EnumType.STRING)
+    @Column(name = "role")
     private String role;
+
+    // public enum Role {
+    // CUSTOMER, OWNER
+    // }
+
     @JsonIgnore
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Review> reviews;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Favorite> favorites;
 
     public List<Review> getReviews() {
         return reviews == null ? null : new ArrayList<>(reviews);
