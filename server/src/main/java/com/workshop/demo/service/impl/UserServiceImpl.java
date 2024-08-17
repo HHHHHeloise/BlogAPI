@@ -32,9 +32,9 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserProfile getUserProfile(String userName) {
         User user = userRepository.getUserByName(userName);
-        Long postCount = reviewRepository.countByCreatedBy(user.getId());
+        Long postCount = reviewRepository.countByUserId(user.getId());
 
-        return new UserProfile(user.getId(), user.getUsername(), user.getCreatedAt(), user.getEmail(), postCount);
+        return new UserProfile(user.getId(), user.getUsername(), user.getEmail(), postCount);
     }
 
     @Override
@@ -79,9 +79,9 @@ public class UserServiceImpl implements UserService {
 
             User updatedUser = userRepository.save(user);
 
-            Long postCount = reviewRepository.countByCreatedBy(user.getId());
+            Long postCount = reviewRepository.countByUserId(user.getId());
 
-            return new UserProfile(updatedUser.getId(), updatedUser.getUsername(), updatedUser.getCreatedAt(),
+            return new UserProfile(updatedUser.getId(), updatedUser.getUsername(),
                     updatedUser.getEmail(), postCount);
         }
 

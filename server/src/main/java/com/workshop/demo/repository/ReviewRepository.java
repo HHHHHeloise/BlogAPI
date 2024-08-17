@@ -4,15 +4,19 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 
 import com.workshop.demo.model.Review;
 
 public interface ReviewRepository extends JpaRepository<Review, Long> {
-    Optional<Review> findById(Long Id);
+    Optional<Review> findById(String Id);
 
-    Optional<Review> findByRestaurantName(String restaurantName);
+    @Query("SELECT AVG(r.score) FROM Review r WHERE r.restaurant.id = :restaurantId")
+    String findAverageScoreByRestaurantId(String restaurantId);
 
-    List<Review> findByCreatedBy(Long userId);
+    List<Review> findByRestaurantId(String restaurantId);
 
-    Long countByCreatedBy(Long userId);
+    List<Review> findByUserId(Long userId);
+
+    Long countByUserId(Long userId);
 }

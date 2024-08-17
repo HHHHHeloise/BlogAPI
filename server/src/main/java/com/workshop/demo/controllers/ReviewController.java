@@ -1,7 +1,7 @@
 package com.workshop.demo.controllers;
 
 import javax.validation.Valid;
-
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,11 +15,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.workshop.demo.model.Review;
 import com.workshop.demo.payload.ApiResponse;
-import com.workshop.demo.payload.ReviewRequest;
 import com.workshop.demo.security.CurrentUser;
 import com.workshop.demo.security.UserPrincipal;
+import com.workshop.demo.model.Review;
+import com.workshop.demo.payload.ReviewRequest;
 import com.workshop.demo.service.ReviewService;
 
 @RestController
@@ -30,10 +30,24 @@ public class ReviewController {
 
     private ReviewService reviewService;
 
-    @GetMapping("/getWithRestaurantName") // checked
-    public ResponseEntity<Review> getRestaurantReview(@Valid @RequestBody ReviewRequest reviewRequest) {
-        Review allReviews = reviewService.getRestaurantReview(reviewRequest);
-        return new ResponseEntity<>(allReviews, HttpStatus.OK);
+    @GetMapping("/{restaurantId}")
+    // checked
+    public ResponseEntity<List<Review>> getReviewsByRestaurant(@PathVariable String restaurantId) {
+        System.out.println("find reviews with rest id");
+        System.out.println(restaurantId);
+        List<Review> reviews = reviewService.findReviewsByRestaurantId(restaurantId);
+        System.out.println(reviews);
+        reviews = reviewService.findReviewsByRestaurantId(restaurantId);
+        if (reviews.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+        return ResponseEntity.ok(reviews);
+
+        // catch (Exception e) {
+        // return new ResponseEntity<>(new ApiResponse(false, "Failed to retrieve
+        // reviews: " + e.getMessage()),
+        // HttpStatus.INTERNAL_SERVER_ERROR);
+        // }
     }
 
     @PostMapping("/add")

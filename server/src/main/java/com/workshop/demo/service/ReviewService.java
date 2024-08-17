@@ -1,5 +1,6 @@
 package com.workshop.demo.service;
 
+import java.util.List;
 import com.workshop.demo.model.Review;
 import com.workshop.demo.payload.ApiResponse;
 import com.workshop.demo.payload.ReviewRequest;
@@ -8,7 +9,7 @@ import com.workshop.demo.security.UserPrincipal;
 public interface ReviewService {
     // get all the reviews of the restaurant
     // review controller @PostMapping("/api/reviews")
-    Review getRestaurantReview(ReviewRequest reviewRequest);
+    List<Review> findReviewsByRestaurantId(String restaurantId);
 
     // review controller @PostMapping
     Review addReview(ReviewRequest reviewRequest, UserPrincipal currentUser);

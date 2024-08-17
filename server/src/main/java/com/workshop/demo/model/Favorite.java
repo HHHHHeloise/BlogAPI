@@ -1,5 +1,11 @@
 package com.workshop.demo.model;
 
+import javax.validation.constraints.NotBlank;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.workshop.demo.model.audit.DateAudit;
+
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -8,27 +14,30 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
+// @EqualsAndHashCode(callSuper = true)
 @Entity
-@Table(name = "favorites")
+@Data
+@NoArgsConstructor
+@Table(name = "Favorites")
 public class Favorite {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", nullable = false)
+    @JoinColumn(name = "user_id")
     private User user;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "restaurant_id", nullable = false)
+    @JoinColumn(name = "restaurant_id")
     private Restaurant restaurant;
 
     // Constructors, getters, and setters
-    public Favorite() {
-    }
-
     public Long getId() {
         return id;
     }
@@ -37,6 +46,7 @@ public class Favorite {
         this.id = id;
     }
 
+    @JsonIgnore
     public User getUser() {
         return user;
     }
@@ -45,6 +55,7 @@ public class Favorite {
         this.user = user;
     }
 
+    @JsonIgnore
     public Restaurant getRestaurant() {
         return restaurant;
     }

@@ -4,7 +4,6 @@ import java.time.Instant;
 import java.util.Optional;
 import java.util.List;
 
-import org.apache.commons.lang3.text.translate.NumericEntityUnescaper.OPTION;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -51,10 +50,8 @@ public class ReviewServiceImpl implements ReviewService {
 
     // get all the reviews of the restaurant
     @Override
-    public Review getRestaurantReview(ReviewRequest reviewRequest) {
-        return reviewRepository.findByRestaurantName(reviewRequest.getRestaurantId())
-                .orElseThrow(
-                        () -> new ResourceNotFoundException(REVIEW_STR, ID_STR, reviewRequest.getRestaurantId()));
+    public List<Review> findReviewsByRestaurantId(String restaurantId) {
+        return reviewRepository.findByRestaurantId(restaurantId);
     }
 
     @Override
@@ -67,9 +64,9 @@ public class ReviewServiceImpl implements ReviewService {
 
         User user = userRepository.getUser(currentUser);
         Review review = new Review(reviewRequest.getBody());
-        review.setCreatedAt(Instant.now());
-        review.setCreatedBy(user.getId());
+        // review.setCreatedAt(Instant.now());
         review.setUser(user);
+        review.setUsername(user.getUsername());
         review.setScore(reviewRequest.getScore());
         review.setRestaurant(restaurant);
         return reviewRepository.save(review);

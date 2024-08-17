@@ -1,8 +1,5 @@
 package com.workshop.demo.model;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashSet;
 import java.util.List;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -13,14 +10,11 @@ import org.hibernate.annotations.NaturalId;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.workshop.demo.model.audit.UserDateAudit;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -38,7 +32,6 @@ import lombok.EqualsAndHashCode;
 // @JsonIgnoreProperties(value = { "updatedBy", "updatedAt", "createdBy" })
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class Restaurant extends UserDateAudit {
-    private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -81,12 +74,32 @@ public class Restaurant extends UserDateAudit {
     @Column(name = "menu", length = 255)
     private String menu;
 
+    @Column(name = "rating", length = 255)
+    private String rating;
+
     @JsonIgnore
-    @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "restaurant", fetch = FetchType.LAZY)
     private List<Review> reviews;
 
-    @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "restaurant", fetch = FetchType.LAZY)
     private List<Favorite> favoritedBy;
+
+    @Override
+    public String toString() {
+        return "Restaurant{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                // Avoid including 'reviews' here
+                '}';
+    }
+
+    public String getRating() {
+        return rating;
+    }
+
+    public void setRating(String rating) {
+        this.rating = rating;
+    }
 
     public String getMenu() {
         return menu;
@@ -120,29 +133,29 @@ public class Restaurant extends UserDateAudit {
         this.imageUrls = imageUrls;
     }
 
-    public List<Review> getReviews() {
-        return reviews == null ? null : new ArrayList<>(reviews);
-    }
+    // public List<Review> getReviews() {
+    // return reviews == null ? null : new ArrayList<>(reviews);
+    // }
 
-    public void setReviews(List<Review> reviews) {
-        if (reviews == null) {
-            this.reviews = null;
-        } else {
-            this.reviews = Collections.unmodifiableList(reviews);
-        }
-    }
+    // public void setReviews(List<Review> reviews) {
+    // if (reviews == null) {
+    // this.reviews = null;
+    // } else {
+    // this.reviews = Collections.unmodifiableList(reviews);
+    // }
+    // }
 
-    public List<Favorite> getFavoriteBy() {
-        return favoritedBy == null ? null : new ArrayList<>(favoritedBy);
-    }
+    // public List<Favorite> getFavoriteBy() {
+    // return favoritedBy == null ? null : new ArrayList<>(favoritedBy);
+    // }
 
-    public void setFavoriteBy(List<Favorite> favoritedBy) {
-        if (favoritedBy == null) {
-            this.favoritedBy = null;
-        } else {
-            this.favoritedBy = Collections.unmodifiableList(favoritedBy);
-        }
-    }
+    // public void setFavoriteBy(List<Favorite> favoritedBy) {
+    // if (favoritedBy == null) {
+    // this.favoritedBy = null;
+    // } else {
+    // this.favoritedBy = Collections.unmodifiableList(favoritedBy);
+    // }
+    // }
 
     /**
      * @return Long return the id

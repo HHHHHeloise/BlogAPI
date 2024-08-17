@@ -44,11 +44,31 @@ public class SecurityConfig {
     @Bean
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration cors = new CorsConfiguration();
-        cors.setAllowedMethods(Arrays.asList("POST", "GET", "PUT", "HEAD", "DELETE"));
+        cors.setAllowedMethods(Arrays.asList("POST", "GET", "PUT", "HEAD",
+                "DELETE"));
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", new CorsConfiguration().applyPermitDefaultValues());
         return source;
     }
+
+    // @Bean
+    // CorsConfigurationSource corsConfigurationSource() {
+    // CorsConfiguration cors = new CorsConfiguration();
+    // cors.setAllowedOrigins(Arrays.asList("*")); // 允许所有域名，实际部署时应更加严格
+    // cors.setAllowedMethods(Arrays.asList("POST", "GET", "PUT", "DELETE",
+    // "OPTIONS", "HEAD")); // 明确指出所有支持的方法
+    // cors.setAllowedHeaders(Arrays.asList("Authorization", "Cache-Control",
+    // "Content-Type", "Accept")); // 允许这些请求头
+    // cors.setExposedHeaders(Arrays.asList("Custom-Response-Header")); //
+    // 允许客户端访问这些响应头
+    // cors.setAllowCredentials(true); // 如果需要的话可以允许凭证
+    // cors.setMaxAge(3600L); // 设置预检请求的缓存时间
+
+    // UrlBasedCorsConfigurationSource source = new
+    // UrlBasedCorsConfigurationSource();
+    // source.registerCorsConfiguration("/**", cors);
+    // return source;
+    // }
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -63,7 +83,8 @@ public class SecurityConfig {
                                         "/api/v1/restaurants/byScore",
                                         "/api/v1/restaurants/search", "/api/v1/restaurants/searchByLocation",
                                         "/api/v1/restaurants/{restaurantId}",
-                                        "/api/v1/reviews/add")
+                                        "/api/v1/reviews/{restaurantId}",
+                                        "/api/v1/photos/{restaurantId}")
                                 .permitAll()
                                 .requestMatchers("/api/v1/auth/*",
                                         "/api/v1/favorites/**")

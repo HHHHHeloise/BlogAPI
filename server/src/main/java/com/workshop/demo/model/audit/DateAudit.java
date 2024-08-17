@@ -17,7 +17,7 @@ import lombok.Data;
 @MappedSuperclass
 @Data
 @EntityListeners(AuditingEntityListener.class)
-@JsonIgnoreProperties(value = { "createdAt", "updatedAt" }, allowGetters = true)
+@JsonIgnoreProperties(value = { "createdAt" }, allowGetters = true)
 public abstract class DateAudit implements Serializable {
     private static final long serialVersionUID = 1L;
 
@@ -25,7 +25,7 @@ public abstract class DateAudit implements Serializable {
     @Column(updatable = false)
     private Instant createdAt;
 
-    @LastModifiedDate
-    private Instant updatedAt;
+    // @LastModifiedDate
+    // private Instant updatedAt;
 
 }

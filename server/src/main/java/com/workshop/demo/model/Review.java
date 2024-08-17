@@ -19,13 +19,12 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
-@EqualsAndHashCode(callSuper = true)
+// @EqualsAndHashCode(callSuper = true)
 @Entity
 @Data
 @NoArgsConstructor
 @Table(name = "Review")
-public class Review extends UserDateAudit {
-    private static final long serialVersionUID = 1L;
+public class Review {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -39,6 +38,7 @@ public class Review extends UserDateAudit {
     @NotBlank
     @Size(min = 50, message = "Review body must be minimum 50 characters")
     private String body;
+    private String username;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "restaurant_id")
@@ -50,6 +50,17 @@ public class Review extends UserDateAudit {
 
     public Review(@NotBlank @Size(min = 10, message = "Review body must be minimum 10 characters") String body) {
         this.body = body;
+    }
+
+    @Override
+    public String toString() {
+        return "Review{" +
+                "id=" + id +
+                ", score='" + score + '\'' +
+                ", body='" + body + '\'' +
+                // Include only the restaurant's ID, not the whole Restaurant object
+                ", restaurantId=" + (restaurant != null ? restaurant.getId() : null) +
+                '}';
     }
 
     @JsonIgnore
@@ -102,6 +113,14 @@ public class Review extends UserDateAudit {
      */
     public void setBody(String body) {
         this.body = body;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     /**

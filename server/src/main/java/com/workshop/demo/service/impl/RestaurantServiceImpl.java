@@ -15,6 +15,7 @@ import com.workshop.demo.model.Restaurant;
 import com.workshop.demo.payload.ApiResponse;
 import com.workshop.demo.payload.RestaurantRequest;
 import com.workshop.demo.repository.RestaurantRepository;
+import com.workshop.demo.repository.ReviewRepository;
 import com.workshop.demo.security.UserPrincipal;
 import com.workshop.demo.service.RestaurantService;
 
@@ -22,6 +23,9 @@ import com.workshop.demo.service.RestaurantService;
 public class RestaurantServiceImpl implements RestaurantService {
     @Autowired
     private RestaurantRepository restaurantRepository;
+
+    @Autowired
+    private ReviewRepository reviewRepository;
 
     private static final String ID_STR = "id";
 
@@ -33,30 +37,6 @@ public class RestaurantServiceImpl implements RestaurantService {
         return restaurantRepository.findAllRestaurantNames();
     }
 
-    // return the score of one specific restaurant with restaurantRequest
-    public List<Restaurant> findRestaurantsWithScoreGreaterThanOrEqual(@RequestParam("score") int score) {
-        return restaurantRepository.findRestaurantsWithScoreGreaterThanOrEqual(score);
-    }
-
-    // @Override
-    // public Restaurant addRestaurant(RestaurantRequest restaurantRequest,
-    // UserPrincipal userPrincipal) {
-    // List<Restaurant> restaurantOptional = restaurantRepository
-    // .findByName(restaurantRequest.getRestaurantName());
-    // if (restaurantOptional.isPresent()) {
-    // throw new BadRequestException("Has existing restaurant with this name");
-    // }
-    // Restaurant restaurant = new Restaurant();
-    // restaurant.setCreatedAt(Instant.now());
-    // restaurant.setCreatedBy(userPrincipal.getId());
-    // restaurant.setId(restaurantRequest.getId());
-    // restaurant.setEmail(restaurantRequest.getEmail());
-    // restaurant.setLocation(restaurantRequest.getLocation());
-    // restaurant.setName(restaurantRequest.getName());
-    // restaurant.setPhone(restaurantRequest.getPhone());
-    // return restaurantRepository.save(restaurant);
-    // }
-
     @Override
     public Restaurant addRestaurant(RestaurantRequest restaurantRequest, UserPrincipal userPrincipal) {
         List<Restaurant> existingRestaurants = restaurantRepository.findByName(restaurantRequest.getRestaurantName());
@@ -64,7 +44,7 @@ public class RestaurantServiceImpl implements RestaurantService {
             throw new BadRequestException("Has existing restaurant with this name");
         }
         Restaurant restaurant = new Restaurant();
-        restaurant.setCreatedAt(Instant.now());
+        // restaurant.setCreatedAt(Instant.now());
         restaurant.setCreatedBy(userPrincipal.getId());
         restaurant.setId(restaurantRequest.getId());
         restaurant.setName(restaurantRequest.getName());
@@ -98,29 +78,6 @@ public class RestaurantServiceImpl implements RestaurantService {
         return new ApiResponse(Boolean.TRUE, "You successfully deleted review");
     }
 
-    // @Override
-    // public ApiResponse deleteRestaurant(UserPrincipal userPrincipal,
-    // RestaurantRequest restaurantRequest) {
-    // Restaurant restaurant =
-    // restaurantRepository.findByName(restaurantRequest.getRestaurantName())
-    // .orElseThrow(() -> new ResourceNotFoundException(THIS_RESTAURANT, ID_STR,
-    // restaurantRequest.getRestaurantName()));
-    // SimpleGrantedAuthority role = new SimpleGrantedAuthority("ROLE_ADMIN");
-    // boolean isAdmin = userPrincipal.getAuthorities().stream().anyMatch(auth ->
-    // auth.equals(role));
-    // if (isAdmin == false) {
-    // return new ApiResponse(Boolean.FALSE, "This is not your restaurant");
-    // }
-
-    // if (isAdmin == true) {
-    // restaurantRepository.deleteById(restaurant.getId());
-    // return new ApiResponse(Boolean.TRUE, "You successfully deleted review");
-    // }
-
-    // throw new BlogapiException(HttpStatus.UNAUTHORIZED, "You do not have
-    // permission to delete this restaurant");
-    // }
-
     @Override
     public List<Restaurant> searchByName(String name) {
         if (name == null) {
@@ -135,10 +92,19 @@ public class RestaurantServiceImpl implements RestaurantService {
 
     @Override
     public List<Restaurant> searchByLocation(String location) {
+        System.out.println(location);
         List<Restaurant> restaurants = restaurantRepository.findByLocation(location);
-        if (restaurants.isEmpty()) {
-            throw new ResourceNotFoundException("Restaurant", "location", location);
+        System.out.println("rest" + restaurants);
+        try {
+            restaurants = restaurantRepository.findByLocation(location);
+            System.out.println("restaurants " + restaurants);
+            return restaurants;
+        } catch (Exception e) {
+            System.out.println("error " + e);
         }
+        // if (restaurants.isEmpty()) {
+        // throw new ResourceNotFoundException("Restaurant", "location", location);
+        // }
         return restaurants;
     }
 
@@ -156,7 +122,23 @@ public class RestaurantServiceImpl implements RestaurantService {
         return restaurantRepository.findByCreatedBy(createdBy);
     }
 
+    // public Optional<Restaurant> searchById(String id) {
+    // return restaurantRepository.findById(id);
+    // }
+
+    @Override
     public Optional<Restaurant> searchById(String id) {
-        return restaurantRepository.findById(id);
+        Optional<Restaurant> restaurant = restaurantRepository.findById(id);
+        restaurant.ifPresent(r -> {
+            String averageScore = reviewRepository.findAverageScoreByRestaurantId(id);
+            r.setRating(averageScore);
+            restaurantRepository.save(r);
+        });
+        return restaurant;
+    }
+
+    @Override
+    public String getAverageScore(String restaurantId) {
+        return reviewRepository.findAverageScoreByRestaurantId(restaurantId);
     }
 }

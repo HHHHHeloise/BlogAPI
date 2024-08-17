@@ -1,13 +1,10 @@
 package com.workshop.demo.service.impl;
 
 import java.util.List;
-import java.time.Instant;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import com.workshop.demo.exception.ResourceNotFoundException;
 import com.workshop.demo.model.Favorite;

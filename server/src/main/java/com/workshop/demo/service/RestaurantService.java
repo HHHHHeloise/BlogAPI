@@ -13,7 +13,7 @@ public interface RestaurantService {
     List<String> getAllRestaurantNames(RestaurantRequest restaurantRequest);
 
     // return the score of one specific restaurant with restaurantRequest
-    List<Restaurant> findRestaurantsWithScoreGreaterThanOrEqual(int score);
+    // List<Restaurant> findRestaurantsWithScoreGreaterThanOrEqual(int score);
     // List<Restaurant> getRestaurantsByScore(RestaurantRequest restaurantRequest);
 
     // check the role of the currentUser and if it is admin, create a restaurant
@@ -32,4 +32,6 @@ public interface RestaurantService {
     List<Restaurant> findByCreatedBy(Long createdBy);
 
     List<Restaurant> searchByNameAndLocation(String name, String location);
+
+    String getAverageScore(String restaurantId);
 }

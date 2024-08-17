@@ -14,15 +14,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.workshop.demo.exception.BadRequestException;
-import com.workshop.demo.exception.ResourceNotFoundException;
 import com.workshop.demo.model.Restaurant;
 import com.workshop.demo.payload.ApiResponse;
 import com.workshop.demo.payload.RestaurantRequest;
-import com.workshop.demo.payload.ScoreRequest;
 import com.workshop.demo.security.CurrentUser;
 import com.workshop.demo.security.UserPrincipal;
 import com.workshop.demo.service.RestaurantService;
@@ -44,15 +41,17 @@ public class RestaurantController {
         return ResponseEntity.ok(restaurants);
     }
 
-    @PostMapping("/byScore")
-    public ResponseEntity<List<Restaurant>> getRestaurantsByScore(@Valid @RequestBody ScoreRequest scoreRequest) {
-        int score = scoreRequest.getScore();
-        List<Restaurant> restaurants = restaurantService.findRestaurantsWithScoreGreaterThanOrEqual(score);
-        if (restaurants.isEmpty()) {
-            return ResponseEntity.noContent().build();
-        }
-        return ResponseEntity.ok(restaurants);
-    }
+    // @PostMapping("/byScore")
+    // public ResponseEntity<List<Restaurant>> getRestaurantsByScore(@Valid
+    // @RequestBody ScoreRequest scoreRequest) {
+    // int score = scoreRequest.getScore();
+    // List<Restaurant> restaurants =
+    // restaurantService.findRestaurantsWithScoreGreaterThanOrEqual(score);
+    // if (restaurants.isEmpty()) {
+    // return ResponseEntity.noContent().build();
+    // }
+    // return ResponseEntity.ok(restaurants);
+    // }
 
     @PostMapping("/search")
     public ResponseEntity<?> searchByName(@Valid @RequestBody RestaurantRequest restaurantRequest) {

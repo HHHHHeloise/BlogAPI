@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 public class UserProfile {
     private Long id;
     private String username;
-    private Instant joinedAt;
+    // private Instant joinedAt;
     private String email;
     private Long postCount;
 }
