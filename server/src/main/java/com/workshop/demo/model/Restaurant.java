@@ -62,9 +62,6 @@ public class Restaurant extends UserDateAudit {
     @Column(name = "cuisine")
     private String cuisine;
 
-    @Column(name = "image_urls", columnDefinition = "json")
-    private String imageUrls;
-
     @Column(name = "hours", columnDefinition = "json")
     private String hours;
 
@@ -78,18 +75,30 @@ public class Restaurant extends UserDateAudit {
     private String rating;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "restaurant", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "restaurant", fetch = FetchType.EAGER)
     private List<Review> reviews;
 
-    @OneToMany(mappedBy = "restaurant", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "restaurant", fetch = FetchType.EAGER)
     private List<Favorite> favoritedBy;
+
+    @OneToMany(mappedBy = "restaurant", fetch = FetchType.EAGER)
+    private List<ImageUrl> imageUrls;
+
+    // Getters and setters for imageUrls
+    public List<ImageUrl> getImageUrls() {
+        return imageUrls;
+    }
+
+    public void setImageUrls(List<ImageUrl> imageUrls) {
+        this.imageUrls = imageUrls;
+        imageUrls.forEach(imageUrl -> imageUrl.setRestaurant(this));
+    }
 
     @Override
     public String toString() {
         return "Restaurant{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                // Avoid including 'reviews' here
                 '}';
     }
 
@@ -125,13 +134,13 @@ public class Restaurant extends UserDateAudit {
         this.hours = hours;
     }
 
-    public String getImageUrls() {
-        return imageUrls;
-    }
+    // public String getImageUrls() {
+    // return imageUrls;
+    // }
 
-    public void setImageUrls(String imageUrls) {
-        this.imageUrls = imageUrls;
-    }
+    // public void setImageUrls(String imageUrls) {
+    // this.imageUrls = imageUrls;
+    // }
 
     // public List<Review> getReviews() {
     // return reviews == null ? null : new ArrayList<>(reviews);

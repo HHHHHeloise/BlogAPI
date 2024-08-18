@@ -1,6 +1,7 @@
 package com.workshop.demo.payload;
 
 import java.time.Instant;
+import java.util.List;
 
 import javax.validation.constraints.Size;
 
@@ -27,9 +28,9 @@ public class RestaurantRequest {
     private String zipcode;
     private String cuisine;
     private String hours;
-    private String imageUrls;
     private String website;
     private String menu;
+    private List<String> imageUrls;
 
     @CreatedDate
     private Instant createdAt;

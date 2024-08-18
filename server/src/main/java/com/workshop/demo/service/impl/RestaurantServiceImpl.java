@@ -3,6 +3,7 @@ package com.workshop.demo.service.impl;
 import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.workshop.demo.exception.BadRequestException;
 import com.workshop.demo.exception.ResourceNotFoundException;
+import com.workshop.demo.model.ImageUrl;
 import com.workshop.demo.model.Restaurant;
 import com.workshop.demo.payload.ApiResponse;
 import com.workshop.demo.payload.RestaurantRequest;
@@ -54,9 +56,18 @@ public class RestaurantServiceImpl implements RestaurantService {
         restaurant.setZipcode(restaurantRequest.getZipcode());
         restaurant.setCuisine(restaurantRequest.getCuisine());
         restaurant.setHours(restaurantRequest.getHours());
-        restaurant.setImageUrls(restaurantRequest.getImageUrls());
         restaurant.setWebsite(restaurantRequest.getWebsite());
         restaurant.setMenu(restaurantRequest.getMenu());
+
+        List<ImageUrl> imageUrls = restaurantRequest.getImageUrls().stream()
+                .map(url -> {
+                    ImageUrl imageUrl = new ImageUrl();
+                    imageUrl.setUrl(url);
+                    imageUrl.setRestaurant(restaurant);
+                    return imageUrl;
+                }).collect(Collectors.toList());
+
+        restaurant.setImageUrls(imageUrls);
         return restaurantRepository.save(restaurant);
     }
 

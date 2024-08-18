@@ -1,5 +1,6 @@
 package com.workshop.demo.controllers;
 
+import com.workshop.demo.service.ImageService;
 import com.workshop.demo.service.StorageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -22,17 +23,18 @@ public class ImageUploaderController {
     @Autowired
     private StorageService storageService;
 
+    @Autowired
+    private ImageService imageService;
+
     @PostMapping("/upload/{restaurantId}")
-    public ResponseEntity<List<String>> uploadImages(@RequestParam("file") MultipartFile[] files) {
+    public ResponseEntity<Object> uploadImages(@PathVariable String restaurantId,
+            @RequestParam("file") MultipartFile[] files) {
         try {
-            List<String> fileUrls = storageService.uploadFiles(files);
-            if (fileUrls.isEmpty()) {
-                return ResponseEntity.badRequest().body(Collections.singletonList("No valid files uploaded."));
-            }
+            List<String> fileUrls = imageService.uploadImages(restaurantId, files);
             return ResponseEntity.ok(fileUrls);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(Collections.singletonList("Error uploading files: " + e.getMessage()));
+                    .body("Error uploading files: " + e.getMessage());
         }
     }
 
