@@ -38,7 +38,6 @@ import lombok.RequiredArgsConstructor;
 @CrossOrigin
 public class SecurityConfig {
     private final JwtAuthFilter jwtAuthFilter;
-    // private final UserDao userDao;
     private final CustomUserDetailsServiceImpl customUserDetailsService;
 
     @Bean
@@ -51,25 +50,6 @@ public class SecurityConfig {
         return source;
     }
 
-    // @Bean
-    // CorsConfigurationSource corsConfigurationSource() {
-    // CorsConfiguration cors = new CorsConfiguration();
-    // cors.setAllowedOrigins(Arrays.asList("*")); // 允许所有域名，实际部署时应更加严格
-    // cors.setAllowedMethods(Arrays.asList("POST", "GET", "PUT", "DELETE",
-    // "OPTIONS", "HEAD")); // 明确指出所有支持的方法
-    // cors.setAllowedHeaders(Arrays.asList("Authorization", "Cache-Control",
-    // "Content-Type", "Accept")); // 允许这些请求头
-    // cors.setExposedHeaders(Arrays.asList("Custom-Response-Header")); //
-    // 允许客户端访问这些响应头
-    // cors.setAllowCredentials(true); // 如果需要的话可以允许凭证
-    // cors.setMaxAge(3600L); // 设置预检请求的缓存时间
-
-    // UrlBasedCorsConfigurationSource source = new
-    // UrlBasedCorsConfigurationSource();
-    // source.registerCorsConfiguration("/**", cors);
-    // return source;
-    // }
-
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
@@ -78,6 +58,7 @@ public class SecurityConfig {
                 .and()
                 .authorizeHttpRequests(
                         auth -> auth
+                                .requestMatchers("/css/**", "/js/**", "/images/**").permitAll()
                                 .requestMatchers(
                                         "/api/v1/restaurants/AllRestaurantNames",
                                         "/api/v1/restaurants/byScore",
@@ -91,11 +72,6 @@ public class SecurityConfig {
                                 .permitAll()
                                 .anyRequest()
                                 .authenticated())
-                // .requestMatchers("/api/v1/auth/*")
-                // .permitAll()
-                // .anyRequest()
-                // .authenticated()
-                // .and()
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()

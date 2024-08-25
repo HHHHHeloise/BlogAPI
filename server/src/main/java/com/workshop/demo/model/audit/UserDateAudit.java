@@ -8,7 +8,6 @@ import jakarta.persistence.Column;
 import jakarta.persistence.MappedSuperclass;
 import lombok.Data;
 
-// @EqualsAndHashCode(callSuper = true)
 @MappedSuperclass
 @Data
 @JsonIgnoreProperties(value = { "createdBy" }, allowGetters = true)
@@ -17,7 +16,4 @@ public abstract class UserDateAudit {
     @CreatedBy
     @Column(updatable = false)
     private Long createdBy;
-
-    // @LastModifiedBy
-    // private Long updatedBy;
 }

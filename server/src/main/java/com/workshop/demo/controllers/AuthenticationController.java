@@ -9,7 +9,6 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -24,7 +23,6 @@ import com.workshop.demo.payload.AuthenticationRequest;
 import com.workshop.demo.payload.AuthenticationResponse;
 import com.workshop.demo.repository.UserRepository;
 import com.workshop.demo.service.UserService;
-import com.workshop.demo.service.impl.CustomUserDetailsServiceImpl;
 
 import lombok.RequiredArgsConstructor;
 
@@ -38,13 +36,6 @@ public class AuthenticationController {
     @Autowired
     private UserRepository userRepository;
     private final JwtTokenProvider jwtTokenProvider;
-    private final CustomUserDetailsServiceImpl userDetailsServiceImpl;
-    // public AuthenticationController(AuthenticationManager authenticationManager,
-    // UserDao userDao, JwtUtils jwtUtils) {
-    // this.authenticationManager = authenticationManager;
-    // this.jwtUtils = jwtUtils;
-    // this.userDao = userDao;
-    // }
 
     @PostMapping("/authenticate")
     public ResponseEntity<?> authenticate(@RequestBody AuthenticationRequest request) {
@@ -53,7 +44,6 @@ public class AuthenticationController {
                     new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword()));
 
             // Assuming user details service is properly fetching the necessary user details
-            final UserDetails user = userDetailsServiceImpl.loadUserByUsername(request.getEmail());
             final User realUser = userRepository.findByEmail(request.getEmail()).orElseThrow(
                     () -> new UsernameNotFoundException("User not found with email: " + request.getEmail()));
 
@@ -68,25 +58,6 @@ public class AuthenticationController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Authentication failed: " + e.getMessage());
         }
     }
-
-    // public ResponseEntity<String> authenticate(
-    // @RequestBody AuthenticationRequest request) {
-    // System.out.print("Hello");
-    // Authentication authentication = authenticationManager.authenticate(
-    // new UsernamePasswordAuthenticationToken(request.getEmail(),
-    // request.getPassword()));
-
-    // authenticationManager.authenticate(
-    // new UsernamePasswordAuthenticationToken(request.getEmail(),
-    // request.getPassword()));
-    // final UserDetails user =
-    // userDetailsServiceImpl.loadUserByUsername(request.getEmail());
-    // System.out.print("lalalala");
-    // if (user != null) {
-    // return ResponseEntity.ok(jwtTokenProvider.generateToken(authentication));
-    // }
-    // return ResponseEntity.status(400).body("Some error has occured");
-    // }
 
     @Autowired
     private UserService userService;

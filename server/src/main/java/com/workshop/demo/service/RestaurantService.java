@@ -12,10 +12,6 @@ public interface RestaurantService {
     // return all the restaurants' names in our blog
     List<String> getAllRestaurantNames(RestaurantRequest restaurantRequest);
 
-    // return the score of one specific restaurant with restaurantRequest
-    // List<Restaurant> findRestaurantsWithScoreGreaterThanOrEqual(int score);
-    // List<Restaurant> getRestaurantsByScore(RestaurantRequest restaurantRequest);
-
     // check the role of the currentUser and if it is admin, create a restaurant
     Restaurant addRestaurant(RestaurantRequest restaurantRequest, UserPrincipal userPrincipal);
 

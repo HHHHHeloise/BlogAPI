@@ -1,6 +1,5 @@
 package com.workshop.demo.service.impl;
 
-import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -8,7 +7,6 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import com.workshop.demo.exception.BadRequestException;
 import com.workshop.demo.exception.ResourceNotFoundException;
@@ -46,7 +44,6 @@ public class RestaurantServiceImpl implements RestaurantService {
             throw new BadRequestException("Has existing restaurant with this name");
         }
         Restaurant restaurant = new Restaurant();
-        // restaurant.setCreatedAt(Instant.now());
         restaurant.setCreatedBy(userPrincipal.getId());
         restaurant.setId(restaurantRequest.getId());
         restaurant.setName(restaurantRequest.getName());
@@ -113,9 +110,6 @@ public class RestaurantServiceImpl implements RestaurantService {
         } catch (Exception e) {
             System.out.println("error " + e);
         }
-        // if (restaurants.isEmpty()) {
-        // throw new ResourceNotFoundException("Restaurant", "location", location);
-        // }
         return restaurants;
     }
 
@@ -132,10 +126,6 @@ public class RestaurantServiceImpl implements RestaurantService {
     public List<Restaurant> findByCreatedBy(Long createdBy) {
         return restaurantRepository.findByCreatedBy(createdBy);
     }
-
-    // public Optional<Restaurant> searchById(String id) {
-    // return restaurantRepository.findById(id);
-    // }
 
     @Override
     public Optional<Restaurant> searchById(String id) {

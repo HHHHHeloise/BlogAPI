@@ -41,18 +41,6 @@ public class RestaurantController {
         return ResponseEntity.ok(restaurants);
     }
 
-    // @PostMapping("/byScore")
-    // public ResponseEntity<List<Restaurant>> getRestaurantsByScore(@Valid
-    // @RequestBody ScoreRequest scoreRequest) {
-    // int score = scoreRequest.getScore();
-    // List<Restaurant> restaurants =
-    // restaurantService.findRestaurantsWithScoreGreaterThanOrEqual(score);
-    // if (restaurants.isEmpty()) {
-    // return ResponseEntity.noContent().build();
-    // }
-    // return ResponseEntity.ok(restaurants);
-    // }
-
     @PostMapping("/search")
     public ResponseEntity<?> searchByName(@Valid @RequestBody RestaurantRequest restaurantRequest) {
         try {
@@ -118,10 +106,7 @@ public class RestaurantController {
     public ResponseEntity<ApiResponse> addRestaurant(@Valid @RequestBody RestaurantRequest restaurantRequest,
             @CurrentUser UserPrincipal userPrincipal) {
         ApiResponse apiResponse = new ApiResponse();
-        // RestaurantResponse restaurantResponse = new RestaurantResponse();
         try {
-            Restaurant restaurant = restaurantService.addRestaurant(restaurantRequest,
-                    userPrincipal);
             apiResponse.setSuccess(true);
             apiResponse.setMessage("restaurant added");
             return new ResponseEntity<>(apiResponse, HttpStatus.CREATED);

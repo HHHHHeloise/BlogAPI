@@ -14,7 +14,6 @@ import jakarta.persistence.Table;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-// @EqualsAndHashCode(callSuper = true)
 @Entity
 @Data
 @NoArgsConstructor

@@ -12,7 +12,6 @@ import org.hibernate.annotations.NaturalId;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.workshop.demo.model.audit.DateAudit;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -25,17 +24,14 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
-// @EqualsAndHashCode(callSuper = true)
 @Entity
 @Data
 @NoArgsConstructor
 @Table(name = "User", uniqueConstraints = { @UniqueConstraint(columnNames = { "username" }),
         @UniqueConstraint(columnNames = { "email" }) })
 public class User {
-    private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -60,13 +56,8 @@ public class User {
     @Email
     private String email;
 
-    // @Enumerated(EnumType.STRING)
     @Column(name = "role")
     private String role;
-
-    // public enum Role {
-    // CUSTOMER, OWNER
-    // }
 
     @JsonIgnore
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
@@ -118,10 +109,6 @@ public class User {
         return role;
     }
 
-    // public Collection<? extends GrantedAuthority> getAuthorities() {
-    // return authorities == null ? null : new ArrayList<>(authorities);
-    // }
-
     /**
      * @param id the id to set
      */
@@ -149,14 +136,6 @@ public class User {
     public void setEmail(String email) {
         this.email = email;
     }
-
-    // /**
-    // * @param authorities the authorities to set
-    // */
-    // public void setAuthorities(Collection<? extends GrantedAuthority>
-    // authorities) {
-    // this.authorities = authorities;
-    // }
 
     /**
      * @param role the role to set

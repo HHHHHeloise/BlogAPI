@@ -47,7 +47,7 @@ public class StorageService {
                 File convFile = convertMultiPartFileToFile(file);
                 String fileName = System.currentTimeMillis() + "_" + file.getOriginalFilename();
                 s3Client.putObject(new PutObjectRequest(bucketName, fileName, convFile));
-                convFile.delete(); // Clean up the temporary file
+                convFile.delete();
                 urls.add(s3Client.getUrl(bucketName, fileName).toString());
             }
         }
@@ -56,10 +56,9 @@ public class StorageService {
 
     private File convertMultiPartFileToFile(MultipartFile file) throws IOException {
         File convFile = new File(System.currentTimeMillis() + "_" + file.getOriginalFilename());
-        // Use try-with-resources to ensure that the FileOutputStream is closed properly
         try (FileOutputStream fos = new FileOutputStream(convFile)) {
             fos.write(file.getBytes());
-        } // No need for a finally block, as try-with-resources handles it
+        }
         return convFile;
     }
 

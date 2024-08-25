@@ -29,7 +29,6 @@ import lombok.EqualsAndHashCode;
 @Data
 @Table(name = "Restaurant", uniqueConstraints = { @UniqueConstraint(columnNames = { "name" }),
         @UniqueConstraint(columnNames = { "email" }) })
-// @JsonIgnoreProperties(value = { "updatedBy", "updatedAt", "createdBy" })
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class Restaurant extends UserDateAudit {
 
@@ -133,38 +132,6 @@ public class Restaurant extends UserDateAudit {
     public void setHours(String hours) {
         this.hours = hours;
     }
-
-    // public String getImageUrls() {
-    // return imageUrls;
-    // }
-
-    // public void setImageUrls(String imageUrls) {
-    // this.imageUrls = imageUrls;
-    // }
-
-    // public List<Review> getReviews() {
-    // return reviews == null ? null : new ArrayList<>(reviews);
-    // }
-
-    // public void setReviews(List<Review> reviews) {
-    // if (reviews == null) {
-    // this.reviews = null;
-    // } else {
-    // this.reviews = Collections.unmodifiableList(reviews);
-    // }
-    // }
-
-    // public List<Favorite> getFavoriteBy() {
-    // return favoritedBy == null ? null : new ArrayList<>(favoritedBy);
-    // }
-
-    // public void setFavoriteBy(List<Favorite> favoritedBy) {
-    // if (favoritedBy == null) {
-    // this.favoritedBy = null;
-    // } else {
-    // this.favoritedBy = Collections.unmodifiableList(favoritedBy);
-    // }
-    // }
 
     /**
      * @return Long return the id

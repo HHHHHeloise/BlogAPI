@@ -31,7 +31,6 @@ public class ReviewController {
     private ReviewService reviewService;
 
     @GetMapping("/{restaurantId}")
-    // checked
     public ResponseEntity<List<Review>> getReviewsByRestaurant(@PathVariable String restaurantId) {
         System.out.println("find reviews with rest id");
         System.out.println(restaurantId);
@@ -42,16 +41,9 @@ public class ReviewController {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
         return ResponseEntity.ok(reviews);
-
-        // catch (Exception e) {
-        // return new ResponseEntity<>(new ApiResponse(false, "Failed to retrieve
-        // reviews: " + e.getMessage()),
-        // HttpStatus.INTERNAL_SERVER_ERROR);
-        // }
     }
 
     @PostMapping("/add")
-    // @PreAuthorize("hasRole('USER')") checked
     public ResponseEntity<Review> addReview(@Valid @RequestBody ReviewRequest reviewRequest,
             @CurrentUser UserPrincipal currentUser) {
 
@@ -61,7 +53,6 @@ public class ReviewController {
     }
 
     // get the user's specific review with userId and the id of the review
-    // review controller @GetMapping("/{id}") checked
     @GetMapping("/getWithUserId/user/{userId}/review/{id}")
     public ResponseEntity<Review> getReview(@PathVariable(name = "userId") Long userId,
             @PathVariable(name = "id") Long id) {
@@ -82,7 +73,6 @@ public class ReviewController {
     }
 
     @DeleteMapping("/deleteWithUserId/user/{userId}/review/{id}")
-    // @PreAuthorize("hasRole('USER') or hasRole('ADMIN')") checked
     public ResponseEntity<ApiResponse> deleteReview(@PathVariable(name = "userId") Long userId,
             @PathVariable(name = "id") Long id, @CurrentUser UserPrincipal currentUser) {
 

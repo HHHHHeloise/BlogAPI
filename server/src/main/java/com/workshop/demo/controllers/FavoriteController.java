@@ -30,7 +30,6 @@ public class FavoriteController {
             @CurrentUser UserPrincipal userPrincipal) {
         ApiResponse apiResponse = new ApiResponse();
         try {
-            Favorite favorite = favoriteService.addFavorite(favoriteRequest, userPrincipal);
             apiResponse.setSuccess(true);
             apiResponse.setMessage("Favorite added successfully");
             return new ResponseEntity<>(apiResponse, HttpStatus.CREATED);
