@@ -16,24 +16,6 @@ This project is a full-stack web application designed to help users search, loca
 - **Secure User Authentication:** Implemented using Spring Boot's security features.
   ![User Authentication Feature]( /server/images/login.png "Uploading Photos")
 
-## API Testing with Postman
-
-I use Postman to test and demonstrate the functionality of our RESTful APIs. Below are some screenshots showing different API requests and their responses:
-
-- **Get Restaurants:** This request retrieves all available restaurant's features.
-  ![Get Restaurants](/server/images/getRestaurantWithId.png "Get Restaurants API")
-
-- **Add Comment:** This request allows users to add a comment to a restaurant with authorization.
-  ![Add Comment](/server/images/review-created.png "Add Comment API")
-
-- **User Login:** This request demonstrates the user authentication process.
-  ![User Login](/server/images/postman-login.png "User Login API")
-
-- **User Sign Up:** This request demonstrates the user sign up process.
-  ![User SignUp](/server/images/signup.png "User Sign Up API")
-
-These examples provide a clear view of how my APIs interact with the front-end and how they can be tested using Postman.
-
 ## Technologies
 
 - **Front-end:** React
