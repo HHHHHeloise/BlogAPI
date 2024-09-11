@@ -1,12 +1,12 @@
 package com.workshop.demo.service;
 
-import com.amazonaws.regions.Regions;
-import com.amazonaws.services.s3.AmazonS3;
-import com.amazonaws.services.s3.AmazonS3ClientBuilder;
-import com.amazonaws.services.s3.model.ListObjectsV2Request;
-import com.amazonaws.services.s3.model.ListObjectsV2Result;
-import com.amazonaws.services.s3.model.PutObjectRequest;
-import com.amazonaws.services.s3.model.S3ObjectSummary;
+import software.amazon.awssdk.regions.Region;
+import software.amazon.awssdk.services.s3.S3Client;
+import software.amazon.awssdk.services.s3.model.ListObjectsV2Request;
+import software.amazon.awssdk.services.s3.model.ListObjectsV2Response;
+import software.amazon.awssdk.services.s3.model.PutObjectRequest;
+import software.amazon.awssdk.services.s3.model.S3Object;
+import software.amazon.awssdk.core.sync.RequestBody;
 
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -21,22 +21,26 @@ import java.util.stream.Collectors;
 @Service
 public class StorageService {
 
-    private AmazonS3 s3Client;
+    private S3Client s3Client;
     private String bucketName = "yelpimagebucket";
 
     public StorageService() {
-        this.s3Client = AmazonS3ClientBuilder.standard()
-                .withRegion(Regions.US_EAST_2)
+        this.s3Client = S3Client.builder()
+                .region(Region.US_EAST_2)
                 .build();
     }
 
     public List<String> listImageUrls(String bucketName) {
-        ListObjectsV2Request req = new ListObjectsV2Request().withBucketName(bucketName).withMaxKeys(10);
-        ListObjectsV2Result result = s3Client.listObjectsV2(req);
+        ListObjectsV2Request req = ListObjectsV2Request.builder()
+                .bucket(bucketName)
+                .maxKeys(10)
+                .build();
+        ListObjectsV2Response result = s3Client.listObjectsV2(req);
 
-        return result.getObjectSummaries().stream()
-                .map(S3ObjectSummary::getKey)
-                .map(key -> s3Client.getUrl(bucketName, key).toString())
+        return result.contents().stream()
+                .map(S3Object::key)
+                .map(key -> s3Client.utilities().getUrl(builder -> builder.bucket(bucketName).key(key))
+                        .toExternalForm())
                 .collect(Collectors.toList());
     }
 
@@ -46,9 +50,16 @@ public class StorageService {
             if (file != null && !file.isEmpty()) {
                 File convFile = convertMultiPartFileToFile(file);
                 String fileName = System.currentTimeMillis() + "_" + file.getOriginalFilename();
-                s3Client.putObject(new PutObjectRequest(bucketName, fileName, convFile));
+
+                s3Client.putObject(PutObjectRequest.builder()
+                        .bucket(bucketName)
+                        .key(fileName)
+                        .build(),
+                        RequestBody.fromFile(convFile));
+
                 convFile.delete();
-                urls.add(s3Client.getUrl(bucketName, fileName).toString());
+                urls.add(s3Client.utilities().getUrl(builder -> builder.bucket(bucketName).key(fileName))
+                        .toExternalForm());
             }
         }
         return urls;
@@ -61,5 +72,4 @@ public class StorageService {
         }
         return convFile;
     }
-
 }

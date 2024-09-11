@@ -30,14 +30,15 @@
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-lang3</artifactId>
 		</dependency>
-		<dependency>
+		<!-- <dependency>
 			<groupId>com.amazonaws</groupId>
 			<artifactId>aws-java-sdk-s3</artifactId>
 			<version>1.12.767</version>
-		</dependency>
+		</dependency> -->
   		<dependency>
-    		<groupId>org.springframework.data</groupId>
-    		<artifactId>spring-data-jpa</artifactId>
+    		<groupId>software.amazon.awssdk</groupId>
+			<artifactId>s3</artifactId>
+			<version>2.17.192</version>
   		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
