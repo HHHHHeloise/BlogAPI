@@ -7,7 +7,8 @@
         "heroku-postbuild": "cd client/blogapi && npm install && npm run build"
     },
     "engines": {
-        "node": "14.x"
+        "node": "18.x",
+        "npm": "6.x"
     },
     "license": "ISC"
 }
