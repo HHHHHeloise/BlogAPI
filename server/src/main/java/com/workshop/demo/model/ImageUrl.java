@@ -1,5 +1,8 @@
 package com.workshop.demo.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -18,9 +21,26 @@ public class ImageUrl {
 
     private String url;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "restaurant_id")
+    @JsonIgnoreProperties({ "createdBy", "name", "phone", "email", "location", "zipcode", "cuisine", "hours", "website",
+            "menu", "rating", "favoritedBy", "imageUrls" })
     private Restaurant restaurant;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JsonIgnore
+    @JoinColumn(name = "review_id")
+    private Review review;
+
+    public ImageUrl() {
+    }
+
+    // Constructor to set URL and review directly
+    public ImageUrl(String url, Review review, Restaurant restaurant) {
+        this.url = url;
+        this.review = review;
+        this.restaurant = restaurant;
+    }
 
     // Getters and setters
     public Long getId() {
@@ -43,7 +63,19 @@ public class ImageUrl {
         return restaurant;
     }
 
+    public Long getRestaurantId() {
+        return restaurant != null ? restaurant.getId() : null;
+    }
+
     public void setRestaurant(Restaurant restaurant) {
         this.restaurant = restaurant;
+    }
+
+    public Review getReview() {
+        return review;
+    }
+
+    public void setReview(Review review) {
+        this.review = review;
     }
 }

@@ -13,7 +13,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.workshop.demo.payload.ApiResponse;
 import com.workshop.demo.security.CurrentUser;
@@ -44,10 +46,12 @@ public class ReviewController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<Review> addReview(@Valid @RequestBody ReviewRequest reviewRequest,
-            @CurrentUser UserPrincipal currentUser) {
+    public ResponseEntity<Review> addReview(
+            @CurrentUser UserPrincipal currentUser,
+            @RequestParam("jsonData") String jsonData,
+            @RequestParam("file") MultipartFile[] files) {
 
-        Review newReview = reviewService.addReview(reviewRequest, currentUser);
+        Review newReview = reviewService.addReview(currentUser, jsonData, files);
 
         return new ResponseEntity<>(newReview, HttpStatus.CREATED);
     }

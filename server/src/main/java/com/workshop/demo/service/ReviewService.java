@@ -1,6 +1,9 @@
 package com.workshop.demo.service;
 
 import java.util.List;
+
+import org.springframework.web.multipart.MultipartFile;
+
 import com.workshop.demo.model.Review;
 import com.workshop.demo.payload.ApiResponse;
 import com.workshop.demo.payload.ReviewRequest;
@@ -12,7 +15,7 @@ public interface ReviewService {
     List<Review> findReviewsByRestaurantId(String restaurantId);
 
     // review controller @PostMapping
-    Review addReview(ReviewRequest reviewRequest, UserPrincipal currentUser);
+    Review addReview(UserPrincipal currentUser, String jsonData, MultipartFile[] images);
 
     // get the user's specific review with userId and the id of the review
     // review controller @GetMapping("/{id}")

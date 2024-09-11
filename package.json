@@ -1,0 +1,13 @@
+{
+    "name": "blogapi",
+    "version": "1.0.0",
+    "description": "A full-stack JavaScript application with Node.js and React",
+    "scripts": {
+        "start": "npm run start --prefix server & npm run start --prefix client/blogapi",
+        "heroku-postbuild": "npm install --prefix client/blogapi && npm run build --prefix client/blogapi"
+    },
+    "engines": {
+        "node": "14.x"
+    },
+    "license": "ISC"
+}
