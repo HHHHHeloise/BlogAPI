@@ -5,16 +5,16 @@ This project is a full-stack web application designed to help users search, loca
 ## Features
 
 - **Dynamic Searching and Filtering:** Users can search for restaurants based on various criteria and filter the results according to their preferences.
-  ![Search Filter](/server/images/listing%20page.png "Dynamic Search Filter")
+  ![Search Filter](/client/blogapi/images/listing%20page.png "Dynamic Search Filter")
 - **User Comments:** Users can leave comments on restaurant pages to share their dining experiences.
-  ![User Comments](/server/images/review%20page.png "User Comments")
-  ![Post Review](/server/images/post%20review.png "Post Review")
+  ![User Comments](/client/blogapi/images/review%20page.png "User Comments")
+  ![Post Review](/client/blogapi/images/post%20review.png "Post Review")
 - **Photo Uploads:** Integrated AWS S3 allows users to upload photos along with their comments.
-  ![Photo Upload Feature](/server/images/upload%20photo.png "Uploading Photos")
+  ![Photo Upload Feature](/client/blogapi/images/upload%20photo.png "Uploading Photos")
 - **Responsive UI:** The front-end is designed to be responsive and user-friendly, adapting to different device screens.
-    ![Detail Page](/server/images/detail%20page-1.png "Detail Page")
+    ![Detail Page](/client/blogapi/images/detail%20page-1.png "Detail Page")
 - **Secure User Authentication:** Implemented using Spring Boot's security features.
-  ![User Authentication Feature]( /server/images/login.png "Uploading Photos")
+  ![User Authentication Feature]( /client/blogapi/images/login.png "Uploading Photos")
 
 ## Technologies
 
