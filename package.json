@@ -3,7 +3,7 @@
     "version": "1.0.0",
     "description": "A full-stack JavaScript application with Node.js and React",
     "scripts": {
-        "start": "ncd client/blogapi && npm run start",
+        "start": "cd client/blogapi && react-scripts --openssl-legacy-provider start",
         "heroku-postbuild": "cd client/blogapi && npm install && npm run build"
     },
     "engines": {
