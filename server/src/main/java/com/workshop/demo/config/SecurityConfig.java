@@ -7,6 +7,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -40,13 +41,28 @@ public class SecurityConfig {
     private final JwtAuthFilter jwtAuthFilter;
     private final CustomUserDetailsServiceImpl customUserDetailsService;
 
+    // @Bean
+    // CorsConfigurationSource corsConfigurationSource() {
+    // CorsConfiguration cors = new CorsConfiguration();
+    // cors.setAllowedMethods(Arrays.asList("POST", "GET", "PUT", "HEAD",
+    // "DELETE"));
+    // UrlBasedCorsConfigurationSource source = new
+    // UrlBasedCorsConfigurationSource();
+    // source.registerCorsConfiguration("/**", new
+    // CorsConfiguration().applyPermitDefaultValues());
+    // return source;
+    // }
+
     @Bean
     CorsConfigurationSource corsConfigurationSource() {
-        CorsConfiguration cors = new CorsConfiguration();
-        cors.setAllowedMethods(Arrays.asList("POST", "GET", "PUT", "HEAD",
-                "DELETE"));
+        CorsConfiguration configuration = new CorsConfiguration();
+        configuration.setAllowedOrigins(Arrays.asList("https://example.com")); // Specific origins
+        configuration.setAllowedMethods(Arrays.asList("POST", "GET", "PUT", "HEAD", "DELETE"));
+        configuration.setAllowCredentials(true); // If you need cookies or authorization headers
+        configuration.setAllowedHeaders(Arrays.asList("Authorization", "Cache-Control", "Content-Type"));
+
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", new CorsConfiguration().applyPermitDefaultValues());
+        source.registerCorsConfiguration("/**", configuration);
         return source;
     }
 
@@ -60,6 +76,7 @@ public class SecurityConfig {
                         auth -> auth
                                 .requestMatchers("/css/**", "/js/**", "/images/**").permitAll()
                                 .requestMatchers(
+                                        HttpMethod.GET,
                                         "/api/v1/restaurants/AllRestaurantNames",
                                         "/api/v1/restaurants/byScore",
                                         "/api/v1/restaurants/search", "/api/v1/restaurants/searchByLocation",
