@@ -1,1 +1,1 @@
-web: cd server && java -jar target/*.jar
+web: cd server && java -Dserver.port=$PORT -jar target/*.jar
