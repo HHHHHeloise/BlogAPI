@@ -56,7 +56,7 @@ public class SecurityConfig {
     @Bean
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(Arrays.asList("https://your-frontend-domain.com"));
+        configuration.setAllowedOrigins(Arrays.asList("https://localhost:3000"));
         configuration.setAllowedMethods(Arrays.asList("POST", "GET", "PUT", "HEAD", "DELETE"));
         configuration.setAllowCredentials(true);
         configuration.setAllowedHeaders(Arrays.asList("Authorization", "Cache-Control", "Content-Type"));
@@ -73,8 +73,9 @@ public class SecurityConfig {
                 .cors()
                 .and()
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/").permitAll()
-                        .requestMatchers("/css/**", "/js/**", "/images/**").permitAll() // 静态资源
+                        .requestMatchers("/yelp-web-server-7dd324f5c807.herokuapp.com/api/v1/auth/authenticate")
+                        .permitAll()
+                        .requestMatchers("/css/**", "/js/**", "/images/**").permitAll()
                         .requestMatchers(
                                 HttpMethod.GET,
                                 "/api/v1/restaurants/AllRestaurantNames",
@@ -84,7 +85,7 @@ public class SecurityConfig {
                                 "/api/v1/reviews/{restaurantId}",
                                 "/api/v1/photos/{restaurantId}")
                         .permitAll()
-                        .requestMatchers("/api/v1/auth/**", "/api/v1/favorites/**").permitAll() // 登录和收藏功能
+                        .requestMatchers("/api/v1/auth/**", "/api/v1/favorites/**").permitAll()
                         .anyRequest().authenticated())
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
