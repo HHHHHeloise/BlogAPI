@@ -56,10 +56,9 @@ public class SecurityConfig {
     @Bean
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(Arrays.asList("https://yelp-web-server-7dd324f5c807.herokuapp.com/")); // Specific
-                                                                                                               // origins
+        configuration.setAllowedOrigins(Arrays.asList("https://your-frontend-domain.com"));
         configuration.setAllowedMethods(Arrays.asList("POST", "GET", "PUT", "HEAD", "DELETE"));
-        configuration.setAllowCredentials(true); // If you need cookies or authorization headers
+        configuration.setAllowCredentials(true);
         configuration.setAllowedHeaders(Arrays.asList("Authorization", "Cache-Control", "Content-Type"));
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
@@ -73,24 +72,20 @@ public class SecurityConfig {
                 .csrf().disable()
                 .cors()
                 .and()
-                .authorizeHttpRequests(
-                        auth -> auth
-                                .requestMatchers("/").permitAll()
-                                .requestMatchers("/css/**", "/js/**", "/images/**").permitAll()
-                                .requestMatchers(
-                                        HttpMethod.GET,
-                                        "/api/v1/restaurants/AllRestaurantNames",
-                                        "/api/v1/restaurants/byScore",
-                                        "/api/v1/restaurants/search", "/api/v1/restaurants/searchByLocation",
-                                        "/api/v1/restaurants/{restaurantId}",
-                                        "/api/v1/reviews/{restaurantId}",
-                                        "/api/v1/photos/{restaurantId}")
-                                .permitAll()
-                                .requestMatchers("/api/v1/auth/*",
-                                        "/api/v1/favorites/**")
-                                .permitAll()
-                                .anyRequest()
-                                .authenticated())
+                .authorizeHttpRequests(auth -> auth
+                        .requestMatchers("/").permitAll()
+                        .requestMatchers("/css/**", "/js/**", "/images/**").permitAll() // 静态资源
+                        .requestMatchers(
+                                HttpMethod.GET,
+                                "/api/v1/restaurants/AllRestaurantNames",
+                                "/api/v1/restaurants/byScore",
+                                "/api/v1/restaurants/search", "/api/v1/restaurants/searchByLocation",
+                                "/api/v1/restaurants/{restaurantId}",
+                                "/api/v1/reviews/{restaurantId}",
+                                "/api/v1/photos/{restaurantId}")
+                        .permitAll()
+                        .requestMatchers("/api/v1/auth/**", "/api/v1/favorites/**").permitAll() // 登录和收藏功能
+                        .anyRequest().authenticated())
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
