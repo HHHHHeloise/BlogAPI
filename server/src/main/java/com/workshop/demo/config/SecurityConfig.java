@@ -73,7 +73,7 @@ public class SecurityConfig {
                 .cors()
                 .and()
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/yelp-web-server-7dd324f5c807.herokuapp.com/api/v1/auth/authenticate")
+                        .requestMatchers("/yelp-web-server-7dd324f5c807.herokuapp.com")
                         .permitAll()
                         .requestMatchers("/css/**", "/js/**", "/images/**").permitAll()
                         .requestMatchers(
