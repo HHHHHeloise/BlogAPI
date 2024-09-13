@@ -56,7 +56,8 @@ public class SecurityConfig {
     @Bean
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(Arrays.asList("https://example.com")); // Specific origins
+        configuration.setAllowedOrigins(Arrays.asList("https://yelp-web-server-7dd324f5c807.herokuapp.com/")); // Specific
+                                                                                                               // origins
         configuration.setAllowedMethods(Arrays.asList("POST", "GET", "PUT", "HEAD", "DELETE"));
         configuration.setAllowCredentials(true); // If you need cookies or authorization headers
         configuration.setAllowedHeaders(Arrays.asList("Authorization", "Cache-Control", "Content-Type"));
